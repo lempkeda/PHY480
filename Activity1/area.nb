@@ -1,0 +1,201 @@
+(************** Content-type: application/mathematica **************
+
+                    Mathematica-Compatible Notebook
+
+This notebook can be used with any Mathematica-compatible
+application, such as Mathematica, MathReader or Publicon. The data
+for the notebook starts with the line containing stars above.
+
+To get the notebook into a Mathematica-compatible application, do
+one of the following:
+
+* Save the data starting with the line of stars above into a file
+  with a name ending in .nb, then open the file inside the
+  application;
+
+* Copy the data starting with the line of stars above to the
+  clipboard, then use the Paste menu command inside the application.
+
+Data for notebooks contains only printable 7-bit ASCII and can be
+sent directly in email or through ftp in text mode.  Newlines can be
+CR, LF or CRLF (Unix, Macintosh or MS-DOS style).
+
+NOTE: If you modify the data for this notebook not in a Mathematica-
+compatible application, you must delete the line below containing
+the word CacheID, otherwise Mathematica-compatible applications may
+try to use invalid cache data.
+
+For more information on notebooks and Mathematica-compatible 
+applications, contact Wolfram Research:
+  web: http://www.wolfram.com
+  email: info@wolfram.com
+  phone: +1-217-398-0700 (U.S.)
+
+Notebook reader applications are available free of charge from 
+Wolfram Research.
+*******************************************************************)
+
+(*CacheID: 232*)
+
+
+(*NotebookFileLineBreakTest
+NotebookFileLineBreakTest*)
+(*NotebookOptionsPosition[      3998,        142]*)
+(*NotebookOutlinePosition[      4657,        165]*)
+(*  CellTagsIndexPosition[      4613,        161]*)
+(*WindowFrame->Normal*)
+
+
+
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["Calculate the Area of a Circle", "Subtitle",
+  TextAlignment->Center,
+  TextJustification->0],
+
+Cell["\<\
+First a simple function definition.  Note the []'s and the \
+capitalized Pi.  What does := do?  (That means \"delayed evaluation.\"  More \
+later!)  Why does radius on the left side have a \"_\" after it?  (It means \
+that radius on the right side is a dummy variable.  The \"_\" defines a \
+\"pattern.\"  More later!)\
+\>", "Text"],
+
+Cell[BoxData[
+    \(area[radius_]\  := \ Pi\ radius^2\)], "Input"],
+
+Cell["Test it out for a case where we know the answer.", "Text"],
+
+Cell[BoxData[
+    \(area[1]\)], "Input"],
+
+Cell["\<\
+But we want the answer to be numerical (i.e., with some number of \
+digits).  Here's one way:\
+\>", "Text"],
+
+Cell[BoxData[
+    \(Narea[radius_]\  := \ N[Pi\ radius^2]\)], "Input"],
+
+Cell["\<\
+But what if we want \"n\" digits precision?  Here's a new \
+version:\
+\>", "Text"],
+
+Cell[BoxData[
+    \(Narea[radius_, n_]\  := \ N[Pi\ radius^2, n]\)], "Input"],
+
+Cell["\<\
+Always check your definition with a \"?\" in front of the \
+name:\
+\>", "Text"],
+
+Cell[BoxData[
+    \(\(?Narea\)\)], "Input"],
+
+Cell[TextData[{
+  "We see that BOTH definitions are active.  How does ",
+  StyleBox["Mathematica",
+    FontSlant->"Italic"],
+  " know which one to use?  Answer: By the number of arguments given to the \
+function!  Try it:"
+}], "Text"],
+
+Cell[BoxData[
+    \(Narea[1]\)], "Input"],
+
+Cell[BoxData[
+    \(Narea[1, 10]\)], "Input"],
+
+Cell["\<\
+Oops, didn't print out the digits!  Use NumberForm in \
+addition:\
+\>", "Text"],
+
+Cell[BoxData[
+    \(Narea[radius_, n_] := NumberForm[N[Pi\ radius^2, n], n]\)], "Input"],
+
+Cell[BoxData[
+    \(Narea[1, 10]\)], "Input"],
+
+Cell["\<\
+Finally, let's write a \"program\" that asks the user for the \
+radius.  First the definition.  The \"Module\" ensures that \"radius\" and \
+\"area\" are local (as opposed to global) variables.  (More later!)\
+\>", \
+"Text"],
+
+Cell[BoxData[
+    \(myarea\  := \ 
+      Module[{radius, area}, \ \[IndentingNewLine]radius\  = \ 
+          Input["\<What is the radius?\>"]; \[IndentingNewLine]area\  = \ 
+          N[Pi\ *\ radius^2]]\)], "Input"],
+
+Cell["Now run it.", "Text"],
+
+Cell[BoxData[
+    \(myarea\)], "Input"],
+
+Cell["That's all for now!", "Text"]
+}, Open  ]]
+},
+FrontEndVersion->"4.1 for X",
+ScreenRectangle->{{0, 1600}, {0, 1200}},
+WindowToolbars->"EditBar",
+WindowSize->{924, 1010},
+WindowMargins->{{315, Automatic}, {Automatic, 57}}
+]
+
+(*******************************************************************
+Cached data follows.  If you edit this Notebook file directly, not
+using Mathematica, you must remove the line containing CacheID at
+the top of  the file.  The cache data will then be recreated when
+you save this file from within Mathematica.
+*******************************************************************)
+
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+
+(*NotebookFileOutline
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[1727, 52, 99, 2, 94, "Subtitle"],
+Cell[1829, 56, 342, 6, 96, "Text"],
+Cell[2174, 64, 66, 1, 39, "Input"],
+Cell[2243, 67, 64, 0, 46, "Text"],
+Cell[2310, 69, 40, 1, 39, "Input"],
+Cell[2353, 72, 117, 3, 46, "Text"],
+Cell[2473, 77, 70, 1, 39, "Input"],
+Cell[2546, 80, 92, 3, 46, "Text"],
+Cell[2641, 85, 77, 1, 39, "Input"],
+Cell[2721, 88, 89, 3, 46, "Text"],
+Cell[2813, 93, 43, 1, 39, "Input"],
+Cell[2859, 96, 234, 6, 71, "Text"],
+Cell[3096, 104, 41, 1, 39, "Input"],
+Cell[3140, 107, 45, 1, 39, "Input"],
+Cell[3188, 110, 89, 3, 46, "Text"],
+Cell[3280, 115, 88, 1, 39, "Input"],
+Cell[3371, 118, 45, 1, 39, "Input"],
+Cell[3419, 121, 234, 5, 71, "Text"],
+Cell[3656, 128, 216, 4, 85, "Input"],
+Cell[3875, 134, 27, 0, 46, "Text"],
+Cell[3905, 136, 39, 1, 39, "Input"],
+Cell[3947, 139, 35, 0, 46, "Text"]
+}, Open  ]]
+}
+]
+*)
+
+
+
+(*******************************************************************
+End of Mathematica Notebook file.
+*******************************************************************)
+
