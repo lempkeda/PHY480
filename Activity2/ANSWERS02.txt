@@ -1,0 +1,69 @@
+Activity 2
+
+Round off errors
+	2. Why care about formatting?
+	- Readability is very importatnt. Unindented code can be very hard to read and tell what is going on .
+
+	3. List of errors.
+	- I fixed them before doing this question but there was a missing library, out instead of cout, and
+	undeclared and unused variables (typo toward end)
+
+	4. X1' and X2 are the most accurate. The other ones are not as accurate because there is significant subtraction error
+	as in this case you subtract numbers that are very close to eachother. 
+
+	5. Three lines I do not understand
+		-    float rel_error1 = fabs ((x1_worst - x1_best) / x1_best);
+		-    fplot << "  " << scientific << setprecision(6)              ### never used fplot
+		-    Any fplot line
+
+
+	8. Gnuplot
+		- This plot is similar to the power law ones in the notes. Eyeballing the graph, the slope appears to
+		be around 1. This means that the power relationship is of x^1 or just a linear relationship. A
+		factor of 10 increase on one variable yields a factor of 10 increase in the other. If this slope were
+		around 3/2 then the relationship would be approximately y = x^(3/2) if I'm understanding correctly. 
+
+
+Summing in different orders
+	1. 1 + a + a + . . . in single precision will most likely have very significant error in it. Because you start with
+	1.0 in the 0th power place then add very small numbers, you get far less precision in the summing of all of the a.
+		- It turns out when carrying this out there is not enough precision left at all for the a's and the sum
+	amount to 1 with all of the rest being lost to error. 
+
+	2. There should be a different answer if you were to sum all of the a's then add 1. The accuracy will be better on
+	this second method because all of the small numbers will be summed with better precision before the gigantic 1.0 is
+	added to it. This should make a more accurate answer. 
+
+	3. The double precision will likely have less error overall and less difference in error between the two methods
+	The second method should still be more accurate however.
+		- Actual calulations are essesntially this. I didnt expect the summing down single precision to fail so
+		hard however.
+
+	4. - 4 things.
+	   - float sum_up, sum_down  double dsum_up, dsum_down
+	   - Add 1 to the sum downs.
+	   - iterate through adding a to all.
+	   - add 1 to sum ups. 
+	   - compare
+	
+	- This is pretty much the same as the code given to calculate this. 
+
+
+	7. I predict the error for 10^8 caluculations would be 10 times greater than 10^7.
+	
+	The actual results are a little funky. I was correct it seems about the double precision error but the single
+	precision encountered serious error after the a's summed to 1. 
+
+Bessel
+
+	2. The program outputs spherical bessel function x vals then yval calculated interating up then yvals iterating
+	down. I do not know however what order or specifically what kind of bessel function this is. I've never dealt
+	with bessel functions at all and do not understand what exactly they are. 
+
+	3. I saved the plot I made as a .png in this folder. 
+
+
+
+
+
+
