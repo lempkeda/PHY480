@@ -1,0 +1,111 @@
+
+
+*******************************************************************************
+Fri Feb  5 16:40:36 2021
+
+
+FIT:    data read from "integ.dat" using 1:2
+        format = x:z
+        x range restricted to [1.00000 : 5.00000]
+        #datapoints = 146
+        residuals are weighted equally (unit weight)
+
+function used for fitting: f(x)
+	f(x) = m*x + b
+fitted parameters initialized with current variable values
+
+iter      chisq       delta/lim  lambda   m             b            
+   0 3.6716232645e+04   0.00e+00  3.02e+00    1.000000e+00   1.000000e+00
+   4 5.1830450672e-01  -1.34e-05  3.02e-04   -2.101731e+00  -2.015564e+00
+
+After 4 iterations the fit converged.
+final sum of squares of residuals : 0.518305
+rel. change during last iteration : -1.34182e-10
+
+degrees of freedom    (FIT_NDF)                        : 144
+rms of residuals      (FIT_STDFIT) = sqrt(WSSR/ndf)    : 0.0599945
+variance of residuals (reduced chisquare) = WSSR/ndf   : 0.00359934
+
+Final set of parameters            Asymptotic Standard Error
+=======================            ==========================
+m               = -2.10173         +/- 0.005898     (0.2806%)
+b               = -2.01556         +/- 0.02452      (1.216%)
+
+correlation matrix of the fit parameters:
+                m      b      
+m               1.000 
+b              -0.979  1.000 
+
+
+*******************************************************************************
+Fri Feb  5 16:41:07 2021
+
+
+FIT:    data read from "integ.dat" using 1:3
+        format = x:z
+        x range restricted to [1.00000 : 5.00000]
+        #datapoints = 146
+        residuals are weighted equally (unit weight)
+
+function used for fitting: f(x)
+	f(x) = m*x + b
+fitted parameters initialized with current variable values
+
+iter      chisq       delta/lim  lambda   m             b            
+   0 4.0997712451e+03   0.00e+00  6.34e+00   -2.101731e+00  -2.015564e+00
+   3 3.9338347450e+03  -4.95e-01  6.34e-03   -8.575133e-01  -7.278666e+00
+
+After 3 iterations the fit converged.
+final sum of squares of residuals : 3933.83
+rel. change during last iteration : -4.94902e-06
+
+degrees of freedom    (FIT_NDF)                        : 144
+rms of residuals      (FIT_STDFIT) = sqrt(WSSR/ndf)    : 5.22669
+variance of residuals (reduced chisquare) = WSSR/ndf   : 27.3183
+
+Final set of parameters            Asymptotic Standard Error
+=======================            ==========================
+m               = -0.857513        +/- 0.5138       (59.92%)
+b               = -7.27867         +/- 2.136        (29.34%)
+
+correlation matrix of the fit parameters:
+                m      b      
+m               1.000 
+b              -0.979  1.000 
+
+
+*******************************************************************************
+Fri Feb  5 16:41:29 2021
+
+
+FIT:    data read from "integ.dat" using 1:4
+        format = x:z
+        x range restricted to [1.00000 : 5.00000]
+        #datapoints = 146
+        residuals are weighted equally (unit weight)
+
+function used for fitting: f(x)
+	f(x) = m*x + b
+fitted parameters initialized with current variable values
+
+iter      chisq       delta/lim  lambda   m             b            
+   0 4.8648441719e+03   0.00e+00  5.73e+00   -8.575133e-01  -7.278666e+00
+   3 1.4747097941e+02  -5.80e-01  5.73e-03    4.523300e-01  -1.818683e+01
+
+After 3 iterations the fit converged.
+final sum of squares of residuals : 147.471
+rel. change during last iteration : -5.80324e-06
+
+degrees of freedom    (FIT_NDF)                        : 144
+rms of residuals      (FIT_STDFIT) = sqrt(WSSR/ndf)    : 1.01198
+variance of residuals (reduced chisquare) = WSSR/ndf   : 1.0241
+
+Final set of parameters            Asymptotic Standard Error
+=======================            ==========================
+m               = 0.45233          +/- 0.09948      (21.99%)
+b               = -18.1868         +/- 0.4135       (2.274%)
+
+correlation matrix of the fit parameters:
+                m      b      
+m               1.000 
+b              -0.979  1.000 

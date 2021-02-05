@@ -1,0 +1,79 @@
+ACTIVITY 3 ANSWERS PHY480 - DAVE LEMPKE
+
+1. Look at the file number_comparison.cpp in an editor. What does it do?
+
+	It tekes two numbers and sees if they are equal. It has cos(pi/4)/sin(pi/4) and 1 to start with. 
+
+
+2.  Both of the number printed out are 1, however when compared in the program they are not equal. This is most
+	likely due to the error in representing cos(pi/4)/sin(pi/4) as small error of these values could
+	make a difference. 
+
+3. A better way to do this given some acceptable inaccuracy eps would be to do something like 
+	if(x1 > x2 - eps && x1 < x2 + eps)
+  
+   This way you have a error zone eps in each direction. 
+
+NUMERICAL DERIVATIVES
+
+1. This is a fairly simple program that outputs a file which hold the error caused by numerical differentiatino methods
+   with decreasing h size each iteration. Likely there is some balance struck between big h approximation error
+   and small h round off error. 
+
+4. The plot I got is consistent with the algorithm truncation error discussed in the notes. At larger h where the truncation
+   error dominates, the forward distance is related to h linearally while the central difference is related to h squared.
+   The central difference is a much better algorithm.
+   Its ideal h value has less error than any of the forward methods error and it is at a higher h value.
+
+5. Calculation approximate ideal h values:
+	Forward: sqrt( 2*eps) 
+	= ~2.11e-8
+	This is almost exactly the minimum on the plot
+
+	Central: (24 * eps)^(1/3)
+	= ~1.75e-5
+	Again this is right on the minimum.
+
+ 6. For single precision the slopes for the roundoff error section may change but the high h region should have the same power
+	law relationship as with double. Changing to single precision would skew things more to round-off error and bring
+	the ideal up while also raising the error. 
+
+
+
+MAKEFILE SECTION
+
+1. I do not have much experience with C++ but there is no main function in this file so I assume that these functions are used
+by other files. In an organizational sense, it is clear why someone would do this. Keeping the functions in seperate files 
+makes programs that use them far easier to understand. 
+
+2. The output dat file makes sense as the simpson method and gauss method produce much smaller error than the trapezoidal
+method. Just looking at the numbers it seems like there is a V shaped curve just like the numerical derivative calculations. 
+
+4. Plot recreated successfully
+	There are definietly distinct regions in this one just like the other things we've done. Each method seems to have
+	an increasing slope as N gets small which all behave according to some power law. 
+	Each method however exits this point at a different N and different error value.
+	After the minimum error ideal point is reached they chaotically increase due to round off error. 
+
+5. To make the log-log plot evenly spaced you need some sort of power law distributions of N to test. So what I changed
+	was to start N at 10 and do i = i *1.1 each iteration to get even spaces on the log-log plot. The problem with this
+	is that you need an integer N so you cannot get very high point density while having them evenly spaced. 
+
+
+Errors from log-log plot
+
+	I'm fairly certain that something went wrong with me modifying the code in this section and i do not know why.
+	These are the slopes I got from the plot I made where it calculated the log within the code.
+
+	-2.1  -  Trap
+	-.86  -  Simp
+	1     -  Gauss
+
+	The gauss somehow got messed up so that the error started very low and only went up chaotically like a round-off error
+
+	The Trapezoid also performed better than the simpson in general which was not how it worked previously and is not
+	how it should work. 
+
+	The fitting using gnuplot worked fine however and I was able to reproduce the relative error plot in the notes,
+	but something got messed up for this last section. 
+
