@@ -1,0 +1,88 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2577
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;\f1\fnil\fcharset0 Chalkduster;}
+{\colortbl;\red255\green255\blue255;\red251\green2\blue7;}
+{\*\expandedcolortbl;;\cssrgb\c100000\c14913\c0;}
+\margl1440\margr1440\vieww16120\viewh8080\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 PHY480 Activity 1\
+\
+
+\f1 \cf2 Grade: Check +    (nice job!)
+\f0 \cf0 \
+\
+1. Why use "area" and "radius" for variables rather than "A" and "R", which are quicker to type?\
+	- The variable names A and R are too simple and could easily be confused with any other thing that begins with\
+	those letters. \
+\
+2. What did this do?\
+	- Adding the "<< endl" to the end of the cout line ends that line of printed statements in the terminal. This makes it\
+	so whatever you type next in the terminal is on a new line so it looks nice. \
+\
+3. Why aren't they noticed immediately?\
+	- When a varible is not declared at all, no error is encountered until that variable name is tried to be used\
+	elsewhere. The program doesnt know what the undeclared variable is so it doesnt have any problem until it\
+	is tried to be used. \
+\
+4. List two ways to verify that the program is giving correct answers using known special cases and scaling arguments \
+   (e.g., multiply radius by factors of 10):\
+	- Using radius of 0, make sure the area is also 0. \
+	- When entering radius of 10, the area equals pi*100 which is correct.\
+\
+4.1 Which, if any, of them do you know how to do now?\
+	- I know how to check the input for negative radii.\
+	- Thats about it\
+\
+6. Do they have the same pseudocode? List three differences between the C++ and Python implementations.\
+	- pseudocode is essentially the same. Just syntax differences.\
+	- No main function in python\
+	- Seems like easier exponent implementation in python.\
+	- C++ uses curly brackets and python uses indentation\
+\
+\
+1. Where does the output go?\
+	- The output goes into flows.out\
+	Single precision underflow: 1.4013e-45\
+	Sinlge precision overflow: 1.70141e+38\
+	This overflow is fairly close to the value given in the notes but the underflow is some orders of magnitude lower. 
+\f1 \cf2 \
+Yup. The discussion in the CH. 1 notes is too naive. The \'93correct\'94 explanation for \
+the value of underflow can be found in the Ch. 2 notes.\
+
+\f0 \cf0 \
+	Double underflow: 4.94066e-324\
+	Double overflow: 8.98847e+307\
+	Woah\
+
+\f1 \cf2 Ditto my previous comment re: why the underflow value is a bit different than what \
+the Ch.1 notes would lead you to believe.
+\f0 \cf0 \
+\
+2. Machine precision\
+	- The float precicion is 5.705318884e-08 as this is the first number n where 1 + n = 1. \
+	- The double precision is about 1.05298825941394181864537499845e-16 (I used many digits)\
+	Machine precision is the largest number n where n + 1 = 1\
+\
+\
+2 Makefile\
+	- It worked\
+	- Success in making the make_flows\
+\
+GSL\
+1. Look up "Bessel function Wikipedia" using Google. How can you use a graph on the webpage to check you are calculating the right thing?\
+	- There is a graph of the functions and we can just test values and check.\
+\
+2. The correct answer was given. \
+\
+3. Answer for J0(3)\
+	- J0(3) = -0.260051954901933446\
+\
+4. Correct answer verified in python jupyter notebook. \
+\
+5. This program could give you a prompt for the values you want to calculate. It could also give a prompt before calculating\
+	for what order (J0, J1, J2) you want to calculate for.\
+   	You could also have it take a list of numbers and give you the calculations for all of those or even produce a plot\
+	for a certain range of numbers given. \
+\
+	\
+}
