@@ -1,0 +1,67 @@
+ACTIVITY 6 ANSWERS
+
+Wrapping GSL Functions: eigen_tridiagonal_class:
+
+1. This new version is far simpler than the old tridiagonal program. The largest difference is that this new class version
+uses GSL to directly calculate the hamiltonian and eigenvectors from that. The old version has to manually allocate
+space for GSL vectors and matrices while the new version does everything with "GslHamiltonian.h".
+
+2. Yes this code works. It also seems to be much faster (though there are just fewer print statements)
+
+
+
+Introduction to Parallel Processing with OpenMP:
+
+1. my CPU has 6 cores and 12 threads. 
+
+2. The multithreading is donw in the for loop at line 79. This is where the simpsons rule function is called
+and where all of the bulky computing is done.
+
+3. TWO THREADS:
+	num time = 3.07611 s
+	wall time = 3.097 s
+	cpu time= 6.109 s
+
+   ONE THREAD
+	num time = 6.04894 s
+	wall time = 6.064 s
+	cpu time= 6.047 s
+
+ The parallelization is working because it took much longer using 1 core than 2.
+It is likely that the cpu time is counting all of the time passed in each thread summed together.
+In this way (if 2 cores are twice as fast as 1 core) then the cpu time should be how long the same
+process would take on 1 core.
+The wall time, on the other hand seems to count something close to the total time the program takes
+to run. 
+
+   TWELVE THREADS:
+	num time = .710844 s	
+	wall time =.727 s
+	cpu time  = 7.969
+
+As we can see, it does not scale perfectly. 
+This is probably due to the fact that computational power is required in splitting the task up for each thread and
+in the fact that there are program elements outside of the multithreading loop. 
+
+
+Integrating a First-Order Differential Equation:
+
+3. It can be easily seen that the 4th order Runge-Kutta method is better than the euler method.
+Not only is it closer to the exact answer, it is almost exactly the exact answer. 
+
+4. The differential equation being integrated is RHS = -a*t*y.  With a = 1 by default
+
+5. For both methods it seems for low t, the error starts low, increases then dips back down at a certain value to its
+overall minimum error. This is very interesting that around certain values the methods have their minimum relative error. 
+Past this dip, both methods error increases according to some power law as is evident from the log-log plot. 
+
+6. Plot is ComparingRelErrorbyH.png
+	
+We can verfiy from this plot that the Euler method's local error scales with h^2 as there is approximataly a 10^2 difference
+in the accumulated error between h = 0.1 and h = 0.01. 
+Witht the 4th order runge kutta method however, there is a 10^4 difference in accumulated error so we could predict that
+the local error scales with h^4. 
+
+
+
+
