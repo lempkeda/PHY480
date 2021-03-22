@@ -1,0 +1,133 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2577
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;\f1\fnil\fcharset0 Chalkduster;}
+{\colortbl;\red255\green255\blue255;\red251\green2\blue7;}
+{\*\expandedcolortbl;;\cssrgb\c100000\c14913\c0;}
+\margl1440\margr1440\vieww13440\viewh7800\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 Activity 5 - Dave Lempke\
+\
+
+\f1 \cf2 Grade: check +
+\f0 \cf0 \
+1 . Bash aliases working. \
+	\
+	alias phy='cd PHY480/PHY480' . Put this line in the .bashrc. Very creative with my naming here\
+	I also have a PHY480 folder within a PHY480 folder by mistake and I havent fixed it\
+\
+\
+NANS AND INFS: \
+\
+	prediction: -nan for 0*(1./0) . Seems like -nan is that answer for weird stuff like this. \
+	answer: -nan\
+\
+Bound States by Matrix Diagonalization in Coordinate Representation:\
+\
+	Here are 5 test values for Rmax and N. We can verify that the code is working by making sure the lowest\
+	eigenvalue is close to the correct value (1.5). We can see that it is probably working as all tests are reasonable\
+	close to this.\
+\
+	Rmax = 3, N = 20\
+	eigenvalue 1 = 1.681778e+00\
+	eigenvalue 2 = 5.083030e+00\
+	\
+	Rmax = 3, N = 100\
+	eigenvalue 1 = 1.684394e+00\
+	eigenvalue 2 = 5.118061e+00\
+\
+	Rmax = 10, N = 40\
+	eigenvalue 1 = 1.495100e+00\
+	eigenvalue 2 = 3.475409e+00\
+\
+	Rmax = 10, N = 100\
+	eigenvalue 1 = 1.499218e+00\
+	eigenvalue 2 = 3.496089e+00\
+\
+	Rmax = 20, N = 500\
+	eigenvalue 1 = 1.499875e+00\
+	eigenvalue 2 = 3.499375e+00\
+\
+2. This is a plot of the particles potential as a function of radius away from zero. The value at r=0 should be 0 which\
+	is what it looks like from the plot.\
+\
+3. Based on this plot, a reasonable Rmax value would be R = 6 or greater. \
+\
+4. Plot saved as Q4plot.png. The slope of the log-log plot of this appears to be -2. This means the relative error\
+	scales with 1/(N^2).\
+\
+5. This error makes sense when you look at how the second derivative is approximated. When the finitie difference formula\
+is used, there is a O(h^2) term left. This squared term is a result of approximating the decond derivative to be discrete\
+of step size h so it would make sense that as N increases, the h decreases and the relative error scales inverse squared.\
+\
+6. Saved as Q6plot.png. With Rmax = 4, there is no trend with the relative error that makes any sense because so much\
+	of the area of the actual potential function is cut off by the low Rmax value.\
+	\
+	This way there is a semi-constant high level of error that even increases a little as N increases. \
+\
+\
+Bound States from Diagonalizing the Hamiltonian in a Basis:\
+\
+	1. Bound-state energies found:\
+	E1 = -14.5248\
+	E2 = -33.8733\
+	E3 = -45.9321\
+\
+Running eigen_basis : \
+	Using b = 1, b_size = 30 ( I do not know what parameters to use here):\
+	eigenvalue 1 = -4.588464e+01\
+	eigenvalue 2 = -3.364068e+01\
+	eigenvalue 3 = -1.373304e+01.\
+\
+	These match fairly well it seems with the eigenvalues/bound state energies found in mathematica.\
+\
+	Very slightly better results using size = 40:\
+	eigenvalue 1 = -4.589314e+01\
+	eigenvalue 2 = -3.368812e+01\
+	eigenvalue 3 = -1.395019e+01\
+\
+These groups of three eigenvalues are the lowest found by the square well approximation. They're also the only negative\
+eigenvalues found under these parameters. These values are decently close to the exact values calculated via mathematica.\
+\
+\
+3. The larger eigenvalue approximations are the most accurate to the actual answer while there is much more error\
+in the lower two.\
+\
+This could be due to due to some round off error with small values in the code as it goes through many calculations\
+but I am really not sure why this is. \
+\
+\
+4. It seems the square well potential is far superior in its approximation compared to the coulomb potential which misses\
+the mark almost entirely. Part of this discrepancy could easily be explained due to round off error as the coulomb \
+potential is calculated as (-Zesq / r) and as r would get very large or close to zero, there may be significant error.\
+\
+5. plot saved as EigenBasisPlotQ5. I calculated many b values with size= 25 on the matrix and found\
+	that the best b value is very small. From the plot it seems the ideal b is around 0.15\
+	The plot I made never crosses the actual value so it can assumed that the ideal value is somewhere\
+	around the minimum close to b = 0.15\
+\
+	I do not really know how to account for this result (I have almost 0 experience with quantum things)\
+\
+6. plot saved as EigenBasisDimensionPlotQ6\
+	There doesnt seem to be a simple power law relationship over the whole dimension value domain I chose. It seems that\
+	also the more dimensions, the more accurate the answer all the way up to values that cause extremely long\
+	computation time. \
+	It may be a more complicated relationship or something exponential, but there are regions where the log-log\
+	plot seems to be linear. \
+\
+	from ~25 dimensions on, the slope looks to be about -2 which would imply an inverse squared relationship. \
+	\
+	A similar relationship exists below 10 dimensions but it is not clearly linear. The whole plot taken together is not\
+	linear.\
+\
+	The middle section shows a much sharper slope where things rapidly decrease. \
+\
+\
+\
+\
+\
+	\
+\
+	\
+\
+\
+}
