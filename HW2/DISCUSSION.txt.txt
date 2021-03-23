@@ -1,0 +1,24 @@
+Plot saved under plot.png
+
+Looking at the graphs of the relative error, it is clear that the optimum number of points for the integrand
+evaluated is around 1300 pts. 
+
+Approximation for Milne rule is approximately proportional to 1/N^6 .
+This can be seen from the slope of -6 on the log-log plot. 
+
+Accumulated round off error from is sqrt(N)*(epsilon_m).
+
+If we believe the machine error for these long floating point numbers to be in the order of 10^-16,
+then the optimal value makes absolute sense. In the region of the plot dominated by round-off error,
+the slope is approximately 1/2.
+
+Extrapolating this back on the x_axis, the closer to n = 0, the error approached the machine precision.
+
+Furthermore the ideal n value is close to 10^3 which can be predicted by this line of thinking.
+
+The truncation error starts at 1 and decreases approximately 6 orders of magnitude with every 1 order of magnitude increase
+in n. The error from machine inacuracy starts at (epsilon_m) and increases half a magnitue per magnitude n. You could predict
+therefore that they would equal eachother before n = 10^3. 
+
+This is fairly close to what actually happens, although it seems the truncation error scales at somethings close 1/N^-5.5
+ 
