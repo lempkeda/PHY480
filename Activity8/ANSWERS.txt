@@ -1,0 +1,65 @@
+DAVE LEMPKE
+PHY480
+ACTIVITY 8
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+LOST MY ANSWSERS 
+I let my laptop die without saving and lost all of what I wrote down for this activity up until the last section (chaos)
+Theres not a ton of questions on this activity but I try my best here to recreate without redoing everything.
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+
+Strings and Things:
+
+	I was able to manipulate the file names as directed using string streams. I set the diffeq_pendulum program
+	to outpute a .dat file based on the alpha value, and used this to answer questions.
+	
+	I changed it back to the default name for the final section however, just so the live plotting worked which
+	is really nice to see the complicated oscillations. 
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+Damped (Undriven) Pendulum:
+
+	Succeeding in manipulating file names
+
+	I used the same default value for theta0 for all three.
+	ALPHA VALUES:
+		Underdamped: 0.2
+		Critical damping : 2.0
+		Overdamping : 4.0
+
+	I chose these values for clarity is seeing the difference. Critical and overdamping have a similar path but it
+	is apparent that the critical damping reaches equilibrium much faster as is characteristic of it.
+
+	I chose a low underdamped value because it makes a very pretty spiral
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+Damped Driven Pendulum:
+
+	1. The green points are useful for seeing each start of a new oscillation in the driving force. If these
+	appear in around the same place in each cycle of the pendulum then you know that their freqency are the same 
+	(or at least some integer multiple of eachother)
+	Furthermore you can see from the position of these greenpoints from the position axes how out of phase	
+	the driving force is from the pendulum.
+
+	2. It took around until t=55 for the transients to go completely away and plotting from here we get pure
+	steady oscillations. 
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+Chaos
+
+	1. One way to see how many "periods" are in the limit cycles is to count how many times the phase space
+	plot loops around its (0,0) point (or like (-2pi, 0) if the pendulum flips over).
+
+	Im not sure what is meant by f(t) being built by multiple frequencies but the behavior seen where there are multiple
+	"periods" before this larger pattern repeats again is very cool.
+
+	Like in the thrid example where there are three full swings of the pendulum, each one growing in amplitude,
+	before the pendulum flips over and does the same thing again -2pi radians away. 
+
+	
+	2. An extremely small change in starting conditions causes a huge change in the entire behavior.
+	It starts out similar but quickly turns into a completely different system entirely. 
