@@ -1,0 +1,732 @@
+(* Content-type: application/mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 6.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       145,          7]
+NotebookDataLength[     21631,        723]
+NotebookOptionsPosition[     18329,        625]
+NotebookOutlinePosition[     19252,        654]
+CellTagsIndexPosition[     19209,        651]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["Nonlinear Differential Equations: Pendulum", "Subtitle",
+ TextAlignment->Center,
+ TextJustification->0],
+
+Cell["\<\
+In this notebook, we solve nonlinear differential equations, looking at the \
+time dependence, phase space plots, Poincare sections, and the power \
+spectrum.  
+
+The notebook has specialized to a pendulum equation, with parameters used in \
+session 8 of 6810. \
+\>", "Text",
+ CellChangeTimes->{{3.6037117900814047`*^9, 3.60371179056887*^9}}],
+
+Cell[CellGroupData[{
+
+Cell["Define the Differential Equation", "Section"],
+
+Cell["\<\
+Name the equation \"diffeq\".  Note the \"==\" in defining the equation.  \
+\>", "Text"],
+
+Cell[BoxData[
+ RowBox[{"diffeq", " ", ":=", " ", 
+  RowBox[{
+   RowBox[{
+    RowBox[{
+     RowBox[{"\[Theta]", "''"}], "[", "t", "]"}], " ", "+", " ", 
+    RowBox[{"\[Alpha]", " ", 
+     RowBox[{
+      RowBox[{"\[Theta]", "'"}], "[", "t", "]"}]}], " ", "+", " ", 
+    RowBox[{
+     RowBox[{"\[Omega]0", "^", "2"}], " ", 
+     RowBox[{"Sin", "[", 
+      RowBox[{"\[Theta]", "[", "t", "]"}], "]"}]}]}], " ", "\[Equal]", " ", 
+   RowBox[{"fext", " ", 
+    RowBox[{"Cos", "[", 
+     RowBox[{
+      RowBox[{"\[Omega]ext", "*", "t"}], " ", "+", " ", "\[Phi]ext"}], 
+     "]"}]}]}]}]], "Input",
+ CellLabel->"In[1]:="],
+
+Cell["Choose among the parameters:", "Text"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"p1", " ", ":=", " ", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"\[Alpha]", "=", "0."}], ",", 
+     RowBox[{"\[Omega]0", "=", "1"}], ",", 
+     RowBox[{"fext", "=", "0."}], ",", 
+     RowBox[{"\[Omega]ext", "=", "0.689"}], ",", 
+     RowBox[{"\[Phi]ext", "=", " ", "0.0"}]}], "}"}]}], ";"}]], "Input",
+ CellLabel->"In[2]:="],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"p2", " ", ":=", " ", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"\[Alpha]", "=", "0.2"}], ",", 
+     RowBox[{"\[Omega]0", "=", "1"}], ",", 
+     RowBox[{"fext", "=", "0.52"}], ",", 
+     RowBox[{"\[Omega]ext", "=", "0.689"}], ",", 
+     RowBox[{"\[Phi]ext", "=", " ", "0.0"}]}], "}"}]}], ";"}]], "Input",
+ CellLabel->"In[3]:="],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"p3", ":=", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"\[Alpha]", "=", "0.2"}], ",", 
+     RowBox[{"\[Omega]0", "=", "1"}], ",", 
+     RowBox[{"fext", "=", "0.52"}], ",", 
+     RowBox[{"\[Omega]ext", "=", "0.694"}], ",", 
+     RowBox[{"\[Phi]ext", "=", "0.0"}]}], "}"}]}], ";"}]], "Input",
+ CellLabel->"In[4]:="],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"p4", ":=", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"\[Alpha]", "=", "0.2"}], ",", 
+     RowBox[{"\[Omega]0", "=", "1"}], ",", 
+     RowBox[{"fext", "=", "0.52"}], ",", 
+     RowBox[{"\[Omega]ext", "=", "0.689"}], ",", 
+     RowBox[{"\[Phi]ext", "=", "0.0"}]}], "}"}]}], ";"}]], "Input",
+ CellLabel->"In[5]:="],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"p5", ":=", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"\[Alpha]", "=", "0.2"}], ",", 
+     RowBox[{"\[Omega]0", "=", "1"}], ",", 
+     RowBox[{"fext", "=", "0.9"}], ",", 
+     RowBox[{"\[Omega]ext", "=", "0.54"}], ",", 
+     RowBox[{"\[Phi]ext", "=", "0.0"}]}], "}"}]}], ";"}]], "Input",
+ CellLabel->"In[6]:="],
+
+Cell[BoxData["p2"], "Input",
+ CellLabel->"In[7]:="],
+
+Cell["Choose among the initial conditions:", "Text"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"ic1", " ", ":=", " ", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"\[Theta]0", "=", "0.8"}], ",", 
+     RowBox[{"\[Theta]dot0", "=", "0."}]}], "}"}]}], ";"}]], "Input",
+ CellLabel->"In[8]:="],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"ic2", " ", ":=", " ", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"\[Theta]0", " ", "=", " ", 
+      RowBox[{"-", "0.8"}]}], ",", " ", 
+     RowBox[{"\[Theta]dot0", " ", "=", " ", "0.1234"}]}], "}"}]}], 
+  ";"}]], "Input",
+ CellLabel->"In[9]:="],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"ic3", ":=", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"\[Theta]0", "=", "0.8"}], ",", 
+     RowBox[{"\[Theta]dot0", "=", "0.8"}]}], "}"}]}], ";"}]], "Input",
+ CellLabel->"In[10]:="],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"ic4", ":=", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"\[Theta]0", "=", "0.8"}], ",", 
+     RowBox[{"\[Theta]dot0", "=", "0.8"}]}], "}"}]}], ";"}]], "Input",
+ CellLabel->"In[11]:="],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"ic5", ":=", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"\[Theta]0", "=", 
+      RowBox[{"-", "0.8"}]}], ",", 
+     RowBox[{"\[Theta]dot0", "=", "0.1234"}]}], "}"}]}], ";"}]], "Input",
+ CellLabel->"In[12]:="],
+
+Cell[BoxData["ic2"], "Input",
+ CellLabel->"In[13]:="]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Solve the Differential Equation", "Section"],
+
+Cell["\<\
+Specify the range in time over which we will solve the differential equation. \
+ We won't be able to use the solution outside of this range. (I.e., we'll \
+have to extend this range if we get an \"outside of range\" error later.)\
+\>", "Text"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"tmin", "=", "0"}], ";", " ", 
+  RowBox[{"tmax", "=", "1000"}], ";"}]], "Input",
+ CellLabel->"In[14]:="],
+
+Cell["\<\
+Numerically solve the differential equaiton using NDSolve, specifying the \
+initial conditions.  Setting MaxSteps to a large number is needed if tmax is \
+large.\
+\>", "Text"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"solution", " ", "=", " ", 
+   RowBox[{"NDSolve", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"diffeq", ",", 
+       RowBox[{
+        RowBox[{"\[Theta]", "[", "0", "]"}], "\[Equal]", "\[Theta]0"}], ",", 
+       " ", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"\[Theta]", "'"}], "[", "0", "]"}], "\[Equal]", 
+        "\[Theta]dot0"}]}], "}"}], ",", "\[Theta]", ",", 
+     RowBox[{"{", 
+      RowBox[{"t", ",", "tmin", ",", "tmax"}], "}"}], ",", 
+     RowBox[{"MaxSteps", "\[Rule]", "20000"}]}], "]"}]}], ";"}]], "Input",
+ CellLabel->"In[15]:="],
+
+Cell["\<\
+NDSolve returns an \"interpolating function\", which can be evaluated later \
+at any time t in tmin < t < tmax.\
+\>", "Text"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Plot the Time Dependence and Phase Space", "Section"],
+
+Cell["\<\
+We can just use \"Plot\" with Evaluate and the \"interpolating function\" \
+defined by \"solution\".\
+\>", "Text"],
+
+Cell[BoxData[
+ RowBox[{"Plot", "[", 
+  RowBox[{
+   RowBox[{"Evaluate", "[", 
+    RowBox[{
+     RowBox[{"\[Theta]", "[", "t", "]"}], "/.", "solution"}], "]"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"t", ",", "0", ",", "100"}], "}"}]}], "]"}]], "Input",
+ CellLabel->"In[16]:="],
+
+Cell["\<\
+Or we can do a parametric plot (\"ParametricPlot\") with the same solution.  \
+We've added various options here to (try to) make a nicer plot.\
+\>", "Text"],
+
+Cell[BoxData[
+ RowBox[{"ParametricPlot", "[", 
+  RowBox[{
+   RowBox[{"Evaluate", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"t", ",", 
+       RowBox[{"\[Theta]", "[", "t", "]"}]}], "}"}], "/.", 
+     "\[InvisibleSpace]", "solution"}], "]"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"t", ",", "0", ",", "100"}], "}"}], ",", 
+   RowBox[{"PlotStyle", "\[Rule]", 
+    RowBox[{"Hue", "[", "0.6`", "]"}]}], ",", 
+   RowBox[{"BaseStyle", "\[Rule]", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"FontFamily", "\[Rule]", "\"\<Times\>\""}], ",", 
+      RowBox[{"FontSize", "\[Rule]", "14"}]}], "}"}]}], ",", 
+   RowBox[{"ImageSize", "\[Rule]", 
+    RowBox[{"{", 
+     RowBox[{"350", ",", "200"}], "}"}]}], ",", 
+   RowBox[{"PlotLabel", "\[Rule]", 
+    RowBox[{"Style", "[", "\"\<Time Dependence\>\"", "]"}]}], ",", 
+   RowBox[{"AxesLabel", "\[Rule]", 
+    RowBox[{"{", 
+     RowBox[{"\"\<t\>\"", ",", "\"\<\[Theta]\>\""}], "}"}]}], ",", 
+   RowBox[{"AspectRatio", "\[Rule]", 
+    RowBox[{"1", "/", "2"}]}]}], "]"}]], "Input",
+ CellChangeTimes->{{3.443270036185191*^9, 3.443270042257785*^9}},
+ CellLabel->"In[36]:="],
+
+Cell["\<\
+Now do the phase space plot.  You may need to change AxesOrigin to get the \
+axes in a reasonable place.\
+\>", "Text"],
+
+Cell[BoxData[
+ RowBox[{"ParametricPlot", "[", 
+  RowBox[{
+   RowBox[{"Evaluate", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"\[Theta]", "[", "t", "]"}], ",", 
+       RowBox[{
+        SuperscriptBox["\[Theta]", "\[Prime]",
+         MultilineFunction->None], "[", "t", "]"}]}], "}"}], "/.", 
+     "\[InvisibleSpace]", "solution"}], "]"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"t", ",", "tmin", ",", "100"}], "}"}], ",", 
+   RowBox[{"PlotStyle", "\[Rule]", 
+    RowBox[{"Hue", "[", "0.6`", "]"}]}], ",", 
+   RowBox[{"AspectRatio", "\[Rule]", "1"}], ",", 
+   RowBox[{"BaseStyle", "\[Rule]", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"FontFamily", "\[Rule]", "\"\<Times\>\""}], ",", 
+      RowBox[{"FontSize", "\[Rule]", "14"}]}], "}"}]}], ",", 
+   RowBox[{"ImageSize", "\[Rule]", 
+    RowBox[{"{", 
+     RowBox[{"250", ",", "250"}], "}"}]}], ",", 
+   RowBox[{"PlotLabel", "\[Rule]", 
+    RowBox[{"Style", "[", "\"\<Phase Space\>\"", "]"}]}], ",", 
+   RowBox[{"AxesOrigin", "\[Rule]", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"-", "1"}], ",", 
+      RowBox[{"-", "1"}]}], "}"}]}], ",", 
+   RowBox[{"AxesLabel", "\[Rule]", 
+    RowBox[{"{", 
+     RowBox[{"\"\<\[Theta]\>\"", ",", "\"\<\[Theta]'\>\""}], "}"}]}]}], 
+  "]"}]], "Input",
+ CellLabel->"In[18]:="],
+
+Cell["\<\
+Here is the same plot, with the starting time t set to skip the transient \
+region.\
+\>", "Text"],
+
+Cell[BoxData[
+ RowBox[{"ParametricPlot", "[", 
+  RowBox[{
+   RowBox[{"Evaluate", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"\[Theta]", "[", "t", "]"}], ",", 
+       RowBox[{
+        SuperscriptBox["\[Theta]", "\[Prime]",
+         MultilineFunction->None], "[", "t", "]"}]}], "}"}], "/.", 
+     "\[InvisibleSpace]", "solution"}], "]"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"t", ",", "100", ",", "300"}], "}"}], ",", 
+   RowBox[{"PlotStyle", "\[Rule]", 
+    RowBox[{"Hue", "[", "0.6`", "]"}]}], ",", 
+   RowBox[{"AspectRatio", "\[Rule]", "1"}], ",", 
+   RowBox[{"BaseStyle", "\[Rule]", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"FontFamily", "\[Rule]", "\"\<Times\>\""}], ",", 
+      RowBox[{"FontSize", "\[Rule]", "14"}]}], "}"}]}], ",", 
+   RowBox[{"ImageSize", "\[Rule]", 
+    RowBox[{"{", 
+     RowBox[{"250", ",", "250"}], "}"}]}], ",", 
+   RowBox[{"PlotLabel", "\[Rule]", 
+    RowBox[{"Style", "[", "\"\<Phase Space\>\"", "]"}]}], ",", 
+   RowBox[{"AxesOrigin", "\[Rule]", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"-", "1"}], ",", 
+      RowBox[{"-", "1"}]}], "}"}]}], ",", 
+   RowBox[{"AxesLabel", "\[Rule]", 
+    RowBox[{"{", 
+     RowBox[{"\"\<\[Theta]\>\"", ",", "\"\<\[Theta]'\>\""}], "}"}]}]}], 
+  "]"}]], "Input",
+ CellLabel->"In[19]:="]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Poincare Sections", "Section"],
+
+Cell["\<\
+The idea of a Poincare section is to plot a point in phase space once every \
+period of the external force, 2\[Pi]/(external frequency).  The resulting \
+pattern gives information about the periodicity of the signal (or indicates \
+chaos).  Start the plot at a large enough time t (\"tstart\") so that the \
+transients have died out.\
+\>", "Text"],
+
+Cell["\<\
+Set the external period and how many periods we'll consider.  Define a \
+function timeperiod[i] giving the corresponding time as a function of the \
+period number.\
+\>", "Text"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"Texternal", " ", ":=", " ", 
+   RowBox[{"2", " ", 
+    RowBox[{"Pi", "/", "\[Omega]ext"}]}]}], ";"}]], "Input",
+ CellLabel->"In[20]:="],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"tstart", " ", "=", " ", 
+   RowBox[{"10", "*", "Texternal"}]}], ";"}]], "Input",
+ CellLabel->"In[21]:="],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"numperiods", " ", "=", " ", "20"}], ";"}]], "Input",
+ CellLabel->"In[22]:="],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"timeperiod", "[", "i_", "]"}], " ", ":=", " ", 
+  RowBox[{"tstart", " ", "+", " ", 
+   RowBox[{"i", "*", "Texternal"}]}]}]], "Input",
+ CellLabel->"In[23]:="],
+
+Cell["\<\
+Just evaluate at the relevant points.  Flatten[expr,1] strips off a layer of \
+{}'s.\
+\>", "Text"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"PoincarePts", " ", "=", " ", 
+   RowBox[{"Flatten", "[", 
+    RowBox[{
+     RowBox[{"Table", "[", 
+      RowBox[{
+       RowBox[{"Evaluate", "[", 
+        RowBox[{
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"\[Theta]", "[", 
+            RowBox[{"timeperiod", "[", "i", "]"}], "]"}], ",", 
+           RowBox[{
+            RowBox[{"\[Theta]", "'"}], "[", 
+            RowBox[{"timeperiod", "[", "i", "]"}], "]"}]}], "}"}], "/.", 
+         "solution"}], "]"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"i", ",", "0", ",", "numperiods"}], "}"}]}], "]"}], ",", 
+     "1"}], "]"}]}], ";"}]], "Input",
+ CellLabel->"In[24]:="],
+
+Cell["ListPlot plots pairs of numbers in the PlotRange.", "Text"],
+
+Cell[BoxData[
+ RowBox[{"ListPlot", "[", 
+  RowBox[{"PoincarePts", ",", 
+   RowBox[{"AspectRatio", "\[Rule]", "1"}], ",", 
+   RowBox[{"BaseStyle", "\[Rule]", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"FontFamily", "\[Rule]", "\"\<Times\>\""}], ",", 
+      RowBox[{"FontSize", "\[Rule]", "14"}]}], "}"}]}], ",", 
+   RowBox[{"ImageSize", "\[Rule]", 
+    RowBox[{"{", 
+     RowBox[{"300", ",", "300"}], "}"}]}], ",", 
+   RowBox[{"PlotRange", "\[Rule]", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"-", "\[Pi]"}], ",", "\[Pi]"}], "}"}], ",", 
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"-", "2"}], ",", "2"}], "}"}]}], "}"}]}], ",", 
+   RowBox[{"PlotLabel", "\[Rule]", 
+    RowBox[{"Style", "[", "\"\<Poincare Section\>\"", "]"}]}], ",", 
+   RowBox[{"AxesOrigin", "\[Rule]", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"-", "\[Pi]"}], ",", "0"}], "}"}]}], ",", 
+   RowBox[{"AxesLabel", "\[Rule]", 
+    RowBox[{"{", 
+     RowBox[{"\"\<\[Theta]\>\"", ",", "\"\<\[Theta]'\>\""}], "}"}]}], ",", 
+   RowBox[{"PlotStyle", "\[Rule]", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"PointSize", "[", "0.015`", "]"}], ",", 
+      RowBox[{"RGBColor", "[", 
+       RowBox[{"1", ",", "0", ",", "0"}], "]"}]}], "}"}]}]}], "]"}]], "Input",\
+
+ CellLabel->"In[25]:="]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Power Spectrum", "Section"],
+
+Cell["\<\
+The power spectrum is found by taking a Fourier transform (FFT) of the \
+signal.  We generate points at the same time intervals as in \
+diffeq_pendulum.cpp.\
+\>", "Text"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"Tskip", " ", "=", " ", "100"}], ";"}]], "Input",
+ CellLabel->"In[26]:="],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"time", "[", "i_", "]"}], ":=", 
+  RowBox[{"tstart", "+", 
+   RowBox[{"i", "*", 
+    RowBox[{"Texternal", "/", "Tskip"}]}]}]}]], "Input",
+ CellLabel->"In[27]:="],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"numpoints", " ", "=", " ", "5000"}], ";"}]], "Input",
+ CellLabel->"In[28]:="],
+
+Cell[BoxData[
+ RowBox[{"SampleTime", " ", ":=", " ", 
+  RowBox[{"numpoints", " ", "*", " ", 
+   RowBox[{"Texternal", "/", "Tskip"}]}]}]], "Input",
+ CellLabel->"In[29]:="],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"SamplePts", "=", 
+   RowBox[{"Flatten", "[", 
+    RowBox[{
+     RowBox[{"Table", "[", 
+      RowBox[{
+       RowBox[{"Evaluate", "[", 
+        RowBox[{
+         RowBox[{"\[Theta]", "[", 
+          RowBox[{"time", "[", "i", "]"}], "]"}], "/.", "solution"}], "]"}], 
+       ",", 
+       RowBox[{"{", 
+        RowBox[{"i", ",", "0", ",", "numpoints"}], "}"}]}], "]"}], ",", "1"}],
+     "]"}]}], ";"}]], "Input",
+ CellLabel->"In[30]:="],
+
+Cell["Check first that the plot still looks ok.", "Text"],
+
+Cell[BoxData[
+ RowBox[{"ListPlot", "[", 
+  RowBox[{"SamplePts", ",", 
+   RowBox[{"PlotRange", "\[Rule]", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"0", ",", "1000"}], "}"}], ",", "Automatic"}], "}"}]}]}], 
+  "]"}]], "Input",
+ CellLabel->"In[31]:="],
+
+Cell["\<\
+The basic command is Fourier.  FourierParameters chooses a particular \
+conention for defining the transform.  Abs takes the magnitude of the \
+resulting complex number (which we then square).  \
+\>", "Text"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"transform", " ", "=", " ", 
+   RowBox[{
+    RowBox[{"Abs", "[", 
+     RowBox[{"Fourier", "[", 
+      RowBox[{"SamplePts", ",", 
+       RowBox[{"FourierParameters", "\[Rule]", 
+        RowBox[{"{", 
+         RowBox[{
+          RowBox[{"-", "1"}], ",", "1"}], "}"}]}]}], "]"}], "]"}], "^", 
+    "2"}]}], ";"}]], "Input",
+ CellLabel->"In[32]:="],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"frequencies", "=", 
+   RowBox[{"Table", "[", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"(", 
+       RowBox[{"2", 
+        RowBox[{"Pi", "/", "SampleTime"}]}], ")"}], "*", "i"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"i", ",", "0", ",", "numpoints"}], "}"}]}], "]"}]}], 
+  ";"}]], "Input",
+ CellLabel->"In[33]:="],
+
+Cell["\<\
+Transpose to make pairs of points from two separate lists of points.\
+\>", "Text"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"PlotPts", " ", "=", " ", 
+   RowBox[{"Transpose", "[", 
+    RowBox[{"{", 
+     RowBox[{"frequencies", ",", "transform"}], "}"}], "]"}]}], 
+  ";"}]], "Input",
+ CellLabel->"In[34]:="],
+
+Cell[BoxData[
+ RowBox[{"ListLogPlot", "[", 
+  RowBox[{"PlotPts", ",", 
+   RowBox[{"Joined", "\[Rule]", "True"}], ",", 
+   RowBox[{"PlotRange", "\[Rule]", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"0", ",", "2"}], "}"}], ",", 
+      RowBox[{"{", 
+       RowBox[{"0.001`", ",", "2"}], "}"}]}], "}"}]}], ",", 
+   RowBox[{"BaseStyle", "\[Rule]", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"FontFamily", "\[Rule]", "\"\<Times\>\""}], ",", 
+      RowBox[{"FontSize", "\[Rule]", "14"}]}], "}"}]}], ",", 
+   RowBox[{"ImageSize", "\[Rule]", 
+    RowBox[{"{", 
+     RowBox[{"400", ",", "400"}], "}"}]}], ",", 
+   RowBox[{"PlotLabel", "\[Rule]", 
+    RowBox[{"Style", "[", "\"\<Power Spectrum\>\"", "]"}]}], ",", 
+   RowBox[{"AxesOrigin", "\[Rule]", "Automatic"}], ",", 
+   RowBox[{"AxesLabel", "\[Rule]", 
+    RowBox[{"{", 
+     RowBox[{"\"\<freq.\>\"", ",", "\"\<power\>\""}], "}"}]}]}], 
+  "]"}]], "Input",
+ CellLabel->"In[35]:="]
+}, Open  ]]
+}, Open  ]]
+},
+WindowToolbars->"EditBar",
+WindowSize->{1001, 800},
+WindowMargins->{{Automatic, 55}, {Automatic, 0}},
+PrintingPageRange->{Automatic, Automatic},
+PrintingOptions->{"Magnification"->1,
+"PaperOrientation"->"Portrait",
+"PaperSize"->{612, 792},
+"PostScriptOutputFile":>FrontEnd`FileName[{$RootDirectory, "home", "furnstah",
+    "Teaching", "Computational_Physics", "class", "2004", "session_9", "pipe",
+    "power_spectrum"}, "pendulum.nb.ps", CharacterEncoding -> "ISO8859-1"],
+"PrintCellBrackets"->False,
+"PrintMultipleHorizontalPages"->False,
+"PrintRegistrationMarks"->True,
+"PrintingMargins"->{{54, 54}, {72, 72}}},
+Magnification->1.5,
+FrontEndVersion->"9.0 for Mac OS X x86 (32-bit, 64-bit Kernel) (January 25, \
+2013)",
+StyleDefinitions->"ArticleClassic.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[567, 22, 109, 2, 51, "Subtitle"],
+Cell[679, 26, 351, 8, 100, "Text"],
+Cell[CellGroupData[{
+Cell[1055, 38, 51, 0, 79, "Section"],
+Cell[1109, 40, 98, 2, 34, "Text"],
+Cell[1210, 44, 610, 18, 37, "Input"],
+Cell[1823, 64, 44, 0, 34, "Text"],
+Cell[1870, 66, 360, 10, 37, "Input"],
+Cell[2233, 78, 363, 10, 37, "Input"],
+Cell[2599, 90, 348, 10, 37, "Input"],
+Cell[2950, 102, 348, 10, 37, "Input"],
+Cell[3301, 114, 346, 10, 37, "Input"],
+Cell[3650, 126, 51, 1, 37, "Input"],
+Cell[3704, 129, 52, 0, 34, "Text"],
+Cell[3759, 131, 226, 7, 37, "Input"],
+Cell[3988, 140, 280, 9, 37, "Input"],
+Cell[4271, 151, 218, 7, 37, "Input"],
+Cell[4492, 160, 218, 7, 37, "Input"],
+Cell[4713, 169, 243, 8, 37, "Input"],
+Cell[4959, 179, 53, 1, 37, "Input"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[5049, 185, 50, 0, 79, "Section"],
+Cell[5102, 187, 253, 4, 56, "Text"],
+Cell[5358, 193, 138, 4, 37, "Input"],
+Cell[5499, 199, 185, 4, 96, "Text"],
+Cell[5687, 205, 593, 17, 111, "Input"],
+Cell[6283, 224, 135, 3, 96, "Text"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[6455, 232, 59, 0, 127, "Section"],
+Cell[6517, 234, 124, 3, 57, "Text"],
+Cell[6644, 239, 272, 8, 64, "Input"],
+Cell[6919, 249, 166, 3, 96, "Text"],
+Cell[7088, 254, 1111, 29, 201, "Input"],
+Cell[8202, 285, 128, 3, 57, "Text"],
+Cell[8333, 290, 1285, 36, 246, "Input"],
+Cell[9621, 328, 107, 3, 57, "Text"],
+Cell[9731, 333, 1284, 36, 246, "Input"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[11052, 374, 36, 0, 127, "Section"],
+Cell[11091, 376, 357, 6, 135, "Text"],
+Cell[11451, 384, 187, 4, 96, "Text"],
+Cell[11641, 390, 170, 5, 64, "Input"],
+Cell[11814, 397, 139, 4, 64, "Input"],
+Cell[11956, 403, 111, 3, 64, "Input"],
+Cell[12070, 408, 192, 5, 64, "Input"],
+Cell[12265, 415, 108, 3, 57, "Text"],
+Cell[12376, 420, 673, 20, 156, "Input"],
+Cell[13052, 442, 65, 0, 57, "Text"],
+Cell[13120, 444, 1304, 37, 246, "Input"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[14461, 486, 33, 0, 127, "Section"],
+Cell[14497, 488, 180, 4, 96, "Text"],
+Cell[14680, 494, 107, 3, 64, "Input"],
+Cell[14790, 499, 195, 6, 64, "Input"],
+Cell[14988, 507, 112, 3, 64, "Input"],
+Cell[15103, 512, 170, 4, 64, "Input"],
+Cell[15276, 518, 467, 15, 111, "Input"],
+Cell[15746, 535, 57, 0, 57, "Text"],
+Cell[15806, 537, 274, 9, 64, "Input"],
+Cell[16083, 548, 218, 4, 96, "Text"],
+Cell[16304, 554, 377, 12, 64, "Input"],
+Cell[16684, 568, 348, 12, 64, "Input"],
+Cell[17035, 582, 92, 2, 57, "Text"],
+Cell[17130, 586, 216, 7, 64, "Input"],
+Cell[17349, 595, 952, 26, 201, "Input"]
+}, Open  ]]
+}, Open  ]]
+}
+]
+*)
+
+(* End of internal cache information *)

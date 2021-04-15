@@ -1,0 +1,65 @@
+DAVE LEMPKE
+PHY 480
+ACTIVITY 9-10
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+Optimization 101: Sqaring a Number:
+
+
+	square_test.cpp :
+		pow(x,2) : 3.50112 s
+		x * x    : 0.38573 s
+
+	This is actually really surpising to me. The x*x method seems to be 10 times faster
+
+
+	4: Calling a function apparently takes a significat amount of computation here. However, this is for a hundred 
+	million iterations. If this was a more complex program with fewer iterations it would probably be worth it 
+	to seperate things into functions as this extra cost would no longer be significant. 
+
+	5: using the #define macro is essentially the same speed as x*x. So this way is more efficient than a function call.
+
+	6. The inline method is about the same as a normal function.
+	Use the simplest math in the main body of the program when possible. If iterating something a nuts amount, using a C
+	#define macro would be a good choice if possible. Otherwise, normal functions could still be used for organization 
+	sake.
+	And don't used pow(x,2) apparently.
+
+	7: The times are around 100 times faster which is crazy.
+	Futhermore it seems the less efficient methods with no optimization are now the most efficient. 
+	I dont know how the compiler does this magic but I suppose the takeaway is to used proper code organization
+	and to use the methods that are included in c++.
+	(i used -03) 
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+GSL INTERPOLATION
+
+	I sucessfully implemented the linear and cubic interpolation but was no able to figure how to edit the class in order
+	to get the polynomial method to work. I still created the comparison plot between cubic, linear, and the actual.
+
+	Away from the peak, where the derivative of the curve is a lower value, both methods do a good job of approximating
+	the actual value.
+	Unsurpisingly the linear interpolation method is accurate on regions of the function where it is approximately linear,
+	and does very poorly on areas where it is not close to linear.
+	The cubic method does very well overall but, for this curve, seems to overestimate on the way up and underestimate
+	on the way down.
+	
+	I couldn't get the polynomial interpolation to work, but from what i read trying to figure it out, it is not the
+	recommended method in essentially any scenario. 
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+PYTHON SCRIPTS
+	
+	1:Sucessfully got this to work. 
+
+	2: Sucessfully made these modifications too. Pretty cool how python can be used like this. I've only ever done
+	scientific things with python so its good to know about these general applications of it. 
+
+
+	
+
