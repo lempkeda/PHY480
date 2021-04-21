@@ -1,0 +1,1159 @@
+(* Content-type: application/mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 6.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       145,          7]
+NotebookDataLength[     38985,       1150]
+NotebookOptionsPosition[     35203,       1016]
+NotebookOutlinePosition[     35904,       1043]
+CellTagsIndexPosition[     35776,       1037]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[TextData[StyleBox["Throwing Dice",
+ FontSize->24,
+ FontWeight->"Bold"]], "Title",
+ TextAlignment->Center,
+ TextJustification->0,
+ FontSize->18],
+
+Cell["In this notebook, we'll simulate the rolling of dice.", "Text"],
+
+Cell[CellGroupData[{
+
+Cell["Clear symbols", "Section",
+ Evaluatable->False,
+ AspectRatioFixed->True],
+
+Cell["\<\
+In order to avoid interference from symbols defined in other notebooks, we \
+first Clear and Remove all symbols.  We assume that the relevant symbols are \
+in the Global` context.\
+\>", "Text",
+ Evaluatable->False,
+ AspectRatioFixed->True],
+
+Cell["Clear[\"Global`*\"]", "Input",
+ AspectRatioFixed->True,
+ CellLabel->"In[22]:="],
+
+Cell["Remove[\"Global`*\"]", "Input",
+ AspectRatioFixed->True,
+ CellLabel->"In[23]:="]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Load some useful packages", "Section",
+ Evaluatable->False,
+ CellChangeTimes->{{3.443949573811569*^9, 3.443949579398747*^9}},
+ AspectRatioFixed->True],
+
+Cell[TextData[{
+ "If you are using a ",
+ StyleBox["Mathematica",
+  FontSlant->"Italic"],
+ " version 6 or earlier, you will need to \"uncomment\" the following line \
+(which means removing \"(*\" and \"*)\".  These functions are now built-in \
+from version 7 on."
+}], "Text",
+ Evaluatable->False,
+ CellChangeTimes->{{3.46460559862694*^9, 3.464605651975168*^9}},
+ AspectRatioFixed->True],
+
+Cell[BoxData[
+ RowBox[{"(*", "  ", 
+  RowBox[{
+   RowBox[{"<<", "\"\<BarCharts`\>\""}], ";", 
+   RowBox[{"<<", "\"\<Histograms`\>\""}], ";"}], " ", "*)"}]], "Input",
+ CellChangeTimes->{
+  3.443949600712019*^9, {3.464605570935053*^9, 3.464605576752598*^9}},
+ CellLabel->"In[24]:="]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Simulate the dice!", "Section",
+ Evaluatable->False,
+ AspectRatioFixed->True],
+
+Cell["Possible outcomes of throwing a single die:", "Text",
+ Evaluatable->False,
+ AspectRatioFixed->True],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"dots", " ", "=", " ", 
+  RowBox[{"{", 
+   RowBox[{"1", ",", "2", ",", "3", ",", "4", ",", "5", ",", "6"}], 
+   "}"}]}]], "Input",
+ CellLabel->"In[25]:="],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{"1", ",", "2", ",", "3", ",", "4", ",", "5", ",", "6"}], 
+  "}"}]], "Output",
+ CellChangeTimes->{3.464605508599*^9, 3.464605579879552*^9},
+ CellLabel->"Out[25]="]
+}, Open  ]],
+
+Cell["\<\
+We define a uniform probability distribution for the results 1 to 6, and call \
+it \"dice\":\
+\>", "Text",
+ Evaluatable->False,
+ AspectRatioFixed->True],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"dice", " ", "=", 
+   RowBox[{"{", 
+    RowBox[{"1", ",", "6"}], "}"}]}], ";"}]], "Input",
+ CellChangeTimes->{{3.443949332253569*^9, 3.443949332397006*^9}, {
+  3.443949716401824*^9, 3.443949719385013*^9}},
+ CellLabel->"In[26]:="],
+
+Cell["How many times we toss the die => trials:", "Text",
+ Evaluatable->False,
+ AspectRatioFixed->True],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"trials", " ", "=", " ", "120"}], ";"}]], "Input",
+ CellLabel->"In[27]:="],
+
+Cell["Toss it (suppressing output with a ; when trials is large):", "Text",
+ Evaluatable->False,
+ AspectRatioFixed->True],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"toss", " ", "=", " ", 
+   RowBox[{"RandomInteger", "[", 
+    RowBox[{"dice", ",", "trials"}], "]"}]}], ";"}]], "Input",
+ CellChangeTimes->{{3.443949389367591*^9, 3.443949397958453*^9}},
+ CellLabel->"In[28]:="],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"?", "RandomInteger"}], "\[IndentingNewLine]"}]], "Input",
+ CellChangeTimes->{{3.443949360737399*^9, 3.44394936327547*^9}, {
+  3.443949404084513*^9, 3.443949405135267*^9}},
+ CellLabel->"In[29]:="],
+
+Cell[BoxData[
+ RowBox[{
+  StyleBox["\<\"\!\(\*RowBox[{\\\"RandomInteger\\\", \\\"[\\\", RowBox[{\\\"{\
+\\\", RowBox[{SubscriptBox[StyleBox[\\\"i\\\", \\\"TI\\\"], \
+StyleBox[\\\"min\\\", \\\"TI\\\"]], \\\",\\\", \
+SubscriptBox[StyleBox[\\\"i\\\", \\\"TI\\\"], StyleBox[\\\"max\\\", \
+\\\"TI\\\"]]}], \\\"}\\\"}], \\\"]\\\"}]\) gives a pseudorandom integer in \
+the range \!\(\*RowBox[{\\\"{\\\", RowBox[{SubscriptBox[\\\"i\\\", \
+\\\"min\\\"], \\\",\\\", \\\"\[Ellipsis]\\\", \\\",\\\", SubscriptBox[\\\"i\\\
+\", \\\"max\\\"]}], \\\"}\\\"}]\). \\n\!\(\*RowBox[{\\\"RandomInteger\\\", \\\
+\"[\\\", SubscriptBox[StyleBox[\\\"i\\\", \\\"TI\\\"], StyleBox[\\\"max\\\", \
+\\\"TI\\\"]], \\\"]\\\"}]\) gives a pseudorandom integer in the range \
+\!\(\*RowBox[{\\\"{\\\", RowBox[{\\\"0\\\", \\\",\\\", \\\"\[Ellipsis]\\\", \
+\\\",\\\", SubscriptBox[\\\"i\\\", \\\"max\\\"]}], \\\"}\\\"}]\). \
+\\n\!\(\*RowBox[{\\\"RandomInteger\\\", \\\"[\\\", \\\"]\\\"}]\) \
+pseudorandomly gives 0 or 1. \\n\!\(\*RowBox[{\\\"RandomInteger\\\", \
+\\\"[\\\", RowBox[{StyleBox[\\\"range\\\", \\\"TI\\\"], \\\",\\\", \
+StyleBox[\\\"n\\\", \\\"TI\\\"]}], \\\"]\\\"}]\) gives a list of \
+\!\(\*StyleBox[\\\"n\\\", \\\"TI\\\"]\) pseudorandom integers. \
+\\n\!\(\*RowBox[{\\\"RandomInteger\\\", \\\"[\\\", RowBox[{StyleBox[\\\"range\
+\\\", \\\"TI\\\"], \\\",\\\", RowBox[{\\\"{\\\", \
+RowBox[{SubscriptBox[StyleBox[\\\"n\\\", \\\"TI\\\"], StyleBox[\\\"1\\\", \
+\\\"TR\\\"]], \\\",\\\", SubscriptBox[StyleBox[\\\"n\\\", \\\"TI\\\"], \
+StyleBox[\\\"2\\\", \\\"TR\\\"]], \\\",\\\", StyleBox[\\\"\[Ellipsis]\\\", \\\
+\"TR\\\"]}], \\\"}\\\"}]}], \\\"]\\\"}]\) gives an \
+\!\(\*RowBox[{SubscriptBox[\\\"n\\\", \\\"1\\\"], \\\"\[Cross]\\\", \
+SubscriptBox[\\\"n\\\", \\\"2\\\"], \\\"\[Cross]\\\", \\\"\[Ellipsis]\\\", \\\
+\" \\\"}]\) array of pseudorandom integers. \
+\\n\!\(\*RowBox[{\\\"RandomInteger\\\", \\\"[\\\", \
+RowBox[{StyleBox[\\\"dist\\\", \\\"TI\\\"], \\\",\\\", StyleBox[\\\"\
+\[Ellipsis]\\\", \\\"TR\\\"]}], \\\"]\\\"}]\) samples from the symbolic \
+discrete distribution \!\(\*StyleBox[\\\"dist\\\", \\\"TI\\\"]\).\"\>", 
+   "MSG"], "\[NonBreakingSpace]", 
+  ButtonBox[
+   StyleBox["\[RightSkeleton]", "SR"],
+   Active->True,
+   BaseStyle->"Link",
+   ButtonData->"paclet:ref/RandomInteger"]}]], "Print", "PrintUsage",
+ CellChangeTimes->{3.464605580320039*^9},
+ CellTags->"Info3464591180-3715492"]
+}, Open  ]],
+
+Cell["\<\
+Count how many of each number (between 1/2 and 3/2, 3/2 and 5/2, etc):\
+\>", "Text",
+ Evaluatable->False,
+ AspectRatioFixed->True],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"freq", " ", "=", " ", 
+  RowBox[{"BinCounts", "[", 
+   RowBox[{"toss", ",", 
+    RowBox[{"{", 
+     RowBox[{".5", ",", "6.5", ",", "1"}], "}"}]}], "]"}]}]], "Input",
+ CellLabel->"In[30]:="],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{"19", ",", "16", ",", "21", ",", "31", ",", "9", ",", "24"}], 
+  "}"}]], "Output",
+ CellChangeTimes->{3.464605510171979*^9, 3.464605580519155*^9},
+ CellLabel->"Out[30]="]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"?", "BinCounts"}]], "Input",
+ CellLabel->"In[31]:="],
+
+Cell[BoxData[
+ RowBox[{
+  StyleBox["\<\"\!\(\*RowBox[{\\\"BinCounts\\\", \\\"[\\\", \
+RowBox[{\\\"{\\\", RowBox[{SubscriptBox[StyleBox[\\\"x\\\", \\\"TI\\\"], \
+StyleBox[\\\"1\\\", \\\"TR\\\"]], \\\",\\\", SubscriptBox[StyleBox[\\\"x\\\", \
+\\\"TI\\\"], StyleBox[\\\"2\\\", \\\"TR\\\"]], \\\",\\\", StyleBox[\\\"\
+\[Ellipsis]\\\", \\\"TR\\\"]}], \\\"}\\\"}], \\\"]\\\"}]\) counts the number \
+of elements \!\(\*SubscriptBox[StyleBox[\\\"x\\\", \\\"TI\\\"], \
+StyleBox[\\\"i\\\", \\\"TI\\\"]]\) whose values lie in successive integer \
+bins.\\n\!\(\*RowBox[{\\\"BinCounts\\\", \\\"[\\\", \
+RowBox[{RowBox[{\\\"{\\\", RowBox[{SubscriptBox[StyleBox[\\\"x\\\", \
+\\\"TI\\\"], StyleBox[\\\"1\\\", \\\"TR\\\"]], \\\",\\\", \
+SubscriptBox[StyleBox[\\\"x\\\", \\\"TI\\\"], StyleBox[\\\"2\\\", \
+\\\"TR\\\"]], \\\",\\\", StyleBox[\\\"\[Ellipsis]\\\", \\\"TR\\\"]}], \\\"}\\\
+\"}], \\\",\\\", StyleBox[\\\"dx\\\", \\\"TI\\\"]}], \\\"]\\\"}]\) counts the \
+number of elements \!\(\*SubscriptBox[StyleBox[\\\"x\\\", \\\"TI\\\"], \
+StyleBox[\\\"i\\\", \\\"TI\\\"]]\) whose values lie in successive bins of \
+width \!\(\*StyleBox[\\\"dx\\\", \\\"TI\\\"]\).\\n\!\(\*RowBox[{\\\"BinCounts\
+\\\", \\\"[\\\", RowBox[{RowBox[{\\\"{\\\", \
+RowBox[{SubscriptBox[StyleBox[\\\"x\\\", \\\"TI\\\"], StyleBox[\\\"1\\\", \
+\\\"TR\\\"]], \\\",\\\", SubscriptBox[StyleBox[\\\"x\\\", \\\"TI\\\"], \
+StyleBox[\\\"2\\\", \\\"TR\\\"]], \\\",\\\", StyleBox[\\\"\[Ellipsis]\\\", \\\
+\"TR\\\"]}], \\\"}\\\"}], \\\",\\\", RowBox[{\\\"{\\\", \
+RowBox[{SubscriptBox[StyleBox[\\\"x\\\", \\\"TI\\\"], StyleBox[\\\"min\\\", \
+\\\"TI\\\"]], \\\",\\\", SubscriptBox[StyleBox[\\\"x\\\", \\\"TI\\\"], \
+StyleBox[\\\"max\\\", \\\"TI\\\"]], \\\",\\\", StyleBox[\\\"dx\\\", \
+\\\"TI\\\"]}], \\\"}\\\"}]}], \\\"]\\\"}]\) counts the number of \
+\!\(\*SubscriptBox[StyleBox[\\\"x\\\", \\\"TI\\\"], StyleBox[\\\"i\\\", \
+\\\"TI\\\"]]\) in successive bins of width \!\(\*StyleBox[\\\"dx\\\", \
+\\\"TI\\\"]\) from \!\(\*SubscriptBox[StyleBox[\\\"x\\\", \\\"TI\\\"], \
+StyleBox[\\\"min\\\", \\\"TI\\\"]]\) to \
+\!\(\*SubscriptBox[StyleBox[\\\"x\\\", \\\"TI\\\"], StyleBox[\\\"max\\\", \
+\\\"TI\\\"]]\). \\n\!\(\*RowBox[{\\\"BinCounts\\\", \\\"[\\\", \
+RowBox[{RowBox[{\\\"{\\\", RowBox[{SubscriptBox[StyleBox[\\\"x\\\", \
+\\\"TI\\\"], StyleBox[\\\"1\\\", \\\"TR\\\"]], \\\",\\\", \
+SubscriptBox[StyleBox[\\\"x\\\", \\\"TI\\\"], StyleBox[\\\"2\\\", \
+\\\"TR\\\"]], \\\",\\\", StyleBox[\\\"\[Ellipsis]\\\", \\\"TR\\\"]}], \\\"}\\\
+\"}], \\\",\\\", RowBox[{\\\"{\\\", RowBox[{\\\"{\\\", \
+RowBox[{SubscriptBox[StyleBox[\\\"b\\\", \\\"TI\\\"], StyleBox[\\\"1\\\", \
+\\\"TR\\\"]], \\\",\\\", SubscriptBox[StyleBox[\\\"b\\\", \\\"TI\\\"], \
+StyleBox[\\\"2\\\", \\\"TR\\\"]], \\\",\\\", StyleBox[\\\"\[Ellipsis]\\\", \\\
+\"TR\\\"]}], \\\"}\\\"}], \\\"}\\\"}]}], \\\"]\\\"}]\) counts the number of \
+\!\(\*SubscriptBox[StyleBox[\\\"x\\\", \\\"TI\\\"], StyleBox[\\\"i\\\", \
+\\\"TI\\\"]]\) in the intervals \!\(\*RowBox[{RowBox[{\\\"[\\\", \
+RowBox[{SubscriptBox[StyleBox[\\\"b\\\", \\\"TI\\\"], StyleBox[\\\"1\\\", \
+\\\"TR\\\"]], \\\",\\\", SubscriptBox[StyleBox[\\\"b\\\", \\\"TI\\\"], \
+StyleBox[\\\"2\\\", \\\"TR\\\"]]}]}], \\\")\\\"}]\), \!\(\*RowBox[{RowBox[{\\\
+\"[\\\", RowBox[{SubscriptBox[StyleBox[\\\"b\\\", \\\"TI\\\"], StyleBox[\\\"2\
+\\\", \\\"TR\\\"]], \\\",\\\", SubscriptBox[StyleBox[\\\"b\\\", \\\"TI\\\"], \
+StyleBox[\\\"3\\\", \\\"TR\\\"]]}]}], \\\")\\\"}]\), \!\(\*StyleBox[\\\"\
+\[Ellipsis]\\\", \\\"TR\\\"]\). \\n\!\(\*RowBox[{\\\"BinCounts\\\", \
+\\\"[\\\", RowBox[{RowBox[{\\\"{\\\", RowBox[{RowBox[{\\\"{\\\", \
+RowBox[{SubscriptBox[StyleBox[\\\"x\\\", \\\"TI\\\"], StyleBox[\\\"1\\\", \
+\\\"TR\\\"]], \\\",\\\", SubscriptBox[StyleBox[\\\"y\\\", \\\"TI\\\"], \
+StyleBox[\\\"1\\\", \\\"TR\\\"]], \\\",\\\", StyleBox[\\\"\[Ellipsis]\\\", \\\
+\"TR\\\"]}], \\\"}\\\"}], \\\",\\\", RowBox[{\\\"{\\\", \
+RowBox[{SubscriptBox[StyleBox[\\\"x\\\", \\\"TI\\\"], StyleBox[\\\"2\\\", \
+\\\"TR\\\"]], \\\",\\\", SubscriptBox[StyleBox[\\\"y\\\", \\\"TI\\\"], \
+StyleBox[\\\"2\\\", \\\"TR\\\"]], \\\",\\\", StyleBox[\\\"\[Ellipsis]\\\", \\\
+\"TR\\\"]}], \\\"}\\\"}], \\\",\\\", StyleBox[\\\"\[Ellipsis]\\\", \
+\\\"TR\\\"]}], \\\"}\\\"}], \\\",\\\", StyleBox[\\\"xbins\\\", \\\"TI\\\"], \
+\\\",\\\", StyleBox[\\\"ybins\\\", \\\"TI\\\"], \\\",\\\", StyleBox[\\\"\
+\[Ellipsis]\\\", \\\"TR\\\"]}], \\\"]\\\"}]\) gives an array of counts where \
+the first index corresponds to \!\(\*StyleBox[\\\"x\\\", \\\"TI\\\"]\) bins, \
+the second to \!\(\*StyleBox[\\\"y\\\", \\\"TI\\\"]\), and so on. \"\>", 
+   "MSG"], "\[NonBreakingSpace]", 
+  ButtonBox[
+   StyleBox["\[RightSkeleton]", "SR"],
+   Active->True,
+   BaseStyle->"Link",
+   ButtonData->"paclet:ref/BinCounts"]}]], "Print", "PrintUsage",
+ CellChangeTimes->{3.464605581362646*^9},
+ CellTags->"Info3464591180-8383539"]
+}, Open  ]],
+
+Cell["Plot the frequency of each result as a histogram:", "Text",
+ Evaluatable->False,
+ AspectRatioFixed->True],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"BarChart", "[", "freq", "]"}]], "Input",
+ CellChangeTimes->{{3.443949886987963*^9, 3.443949890948572*^9}},
+ CellLabel->"In[32]:="],
+
+Cell[BoxData[
+ GraphicsBox[{
+   {Hue[0.67, 0.45, 0.65], EdgeForm[Opacity[0.5]], 
+    RectangleBox[{0.615, 0}, {1.385, 19}]}, 
+   {Hue[0.67, 0.45, 0.65], EdgeForm[Opacity[0.5]], 
+    RectangleBox[{1.615, 0}, {2.385, 16}]}, 
+   {Hue[0.67, 0.45, 0.65], EdgeForm[Opacity[0.5]], 
+    RectangleBox[{2.615, 0}, {3.385, 21}]}, 
+   {Hue[0.67, 0.45, 0.65], EdgeForm[Opacity[0.5]], 
+    RectangleBox[{3.615, 0}, {4.385, 31}]}, 
+   {Hue[0.67, 0.45, 0.65], EdgeForm[Opacity[0.5]], 
+    RectangleBox[{4.615, 0}, {5.385, 9}]}, 
+   {Hue[0.67, 0.45, 0.65], EdgeForm[Opacity[0.5]], 
+    RectangleBox[{5.615, 0}, {6.385, 24}]}},
+  AlignmentPoint->Center,
+  AspectRatio->NCache[GoldenRatio^(-1), 0.6180339887498948],
+  Axes->True,
+  AxesLabel->None,
+  AxesOrigin->{0.39999999999999997`, 0},
+  AxesStyle->{},
+  Background->None,
+  BaseStyle->{},
+  BaselinePosition->Automatic,
+  ColorOutput->Automatic,
+  ContentSelectable->Automatic,
+  CoordinatesToolOptions:>Automatic,
+  DisplayFunction:>$DisplayFunction,
+  Epilog->{},
+  FormatType:>TraditionalForm,
+  Frame->False,
+  FrameLabel->None,
+  FrameStyle->{},
+  FrameTicks->{{{1, 
+      FormBox["1", TraditionalForm], 0}, {2, 
+      FormBox["2", TraditionalForm], 0}, {3, 
+      FormBox["3", TraditionalForm], 0}, {4, 
+      FormBox["4", TraditionalForm], 0}, {5, 
+      FormBox["5", TraditionalForm], 0}, {6, 
+      FormBox["6", TraditionalForm], 0}}, Automatic},
+  FrameTicksStyle->{},
+  GridLines->None,
+  GridLinesStyle->{},
+  ImageMargins->0.,
+  ImagePadding->All,
+  ImageSize->Automatic,
+  ImageSizeRaw->Automatic,
+  LabelStyle->{},
+  Method->Automatic,
+  PlotLabel->None,
+  PlotRange->{{0.39999999999999997`, 6.6000000000000005`}, All},
+  PlotRangeClipping->True,
+  PlotRangePadding->Automatic,
+  PlotRegion->Automatic,
+  PreserveImageOptions->Automatic,
+  Prolog->{},
+  RotateLabel->True,
+  Ticks->{{{1, 
+      FormBox["1", TraditionalForm], 0}, {2, 
+      FormBox["2", TraditionalForm], 0}, {3, 
+      FormBox["3", TraditionalForm], 0}, {4, 
+      FormBox["4", TraditionalForm], 0}, {5, 
+      FormBox["5", TraditionalForm], 0}, {6, 
+      FormBox["6", TraditionalForm], 0}}, Automatic},
+  TicksStyle->{}]], "Output",
+ CellChangeTimes->{3.464605511711749*^9, 3.464605582211186*^9},
+ CellLabel->"Out[32]="]
+}, Open  ]],
+
+Cell["\<\
+Efficient way to add up the elements of the list \"dots\" ==>  Apply the \
+\"Plus\" operator to each element:\
+\>", "Text",
+ Evaluatable->False,
+ AspectRatioFixed->True],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Plus", " ", "@@", " ", "dots"}]], "Input",
+ CellLabel->"In[33]:="],
+
+Cell[BoxData["21"], "Output",
+ CellChangeTimes->{3.464605511847291*^9, 3.464605582508634*^9},
+ CellLabel->"Out[33]="]
+}, Open  ]],
+
+Cell["Calculate the average value of the number of dots:", "Text",
+ Evaluatable->False,
+ AspectRatioFixed->True],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"N", "[", " ", 
+  RowBox[{
+   RowBox[{"Plus", " ", "@@", " ", 
+    RowBox[{"(", 
+     RowBox[{"freq", "*", "dots"}], ")"}]}], " ", "/", " ", "trials"}], " ", 
+  "]"}]], "Input",
+ CellLabel->"In[34]:="],
+
+Cell[BoxData["3.558333333333333`"], "Output",
+ CellChangeTimes->{3.464605512156894*^9, 3.464605582806423*^9},
+ CellLabel->"Out[34]="]
+}, Open  ]],
+
+Cell["Calculate the average value of the number of dots squared:", "Text",
+ Evaluatable->False,
+ AspectRatioFixed->True],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"N", "[", " ", 
+  RowBox[{
+   RowBox[{"Plus", " ", "@@", " ", 
+    RowBox[{"(", 
+     RowBox[{"freq", "*", 
+      RowBox[{"dots", "^", "2"}]}], ")"}]}], " ", "/", " ", "trials"}], " ", 
+  "]"}]], "Input",
+ CellLabel->"In[35]:="],
+
+Cell[BoxData["15.475`"], "Output",
+ CellChangeTimes->{3.464605512450869*^9, 3.464605583215809*^9},
+ CellLabel->"Out[35]="]
+}, Open  ]],
+
+Cell["Let's define a function that combines all of these steps:", "Text"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"Rolldice", "[", "trials_", "]"}], " ", ":=", " ", 
+  RowBox[{"(", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"dots", " ", "=", " ", 
+     RowBox[{"{", 
+      RowBox[{"1", ",", "2", ",", "3", ",", "4", ",", "5", ",", "6"}], 
+      "}"}]}], ";", "\[IndentingNewLine]", 
+    RowBox[{"dice", " ", "=", 
+     RowBox[{"{", 
+      RowBox[{"1", ",", "6"}], "}"}]}], ";", "\[IndentingNewLine]", 
+    RowBox[{"toss", " ", "=", " ", 
+     RowBox[{"RandomInteger", "[", 
+      RowBox[{"dice", ",", "trials"}], "]"}]}], ";", "\[IndentingNewLine]", 
+    RowBox[{"freq", "=", 
+     RowBox[{"BinCounts", "[", 
+      RowBox[{"toss", ",", 
+       RowBox[{"{", 
+        RowBox[{".5", ",", "6.5", ",", "1"}], "}"}]}], "]"}]}], ";", 
+    "\[IndentingNewLine]", 
+    RowBox[{"avgdots", " ", "=", " ", 
+     RowBox[{"N", "[", 
+      RowBox[{
+       RowBox[{"Plus", "@@", 
+        RowBox[{"(", 
+         RowBox[{"freq", "*", "dots"}], ")"}]}], "/", "trials"}], "]"}]}], 
+    ";", "\[IndentingNewLine]", 
+    RowBox[{"avgdotssq", " ", "=", " ", 
+     RowBox[{"N", "[", 
+      RowBox[{
+       RowBox[{"Plus", "@@", 
+        RowBox[{"(", 
+         RowBox[{"freq", "*", 
+          RowBox[{"dots", "^", "2"}]}], ")"}]}], "/", "trials"}], "]"}]}], 
+    ";", "\[IndentingNewLine]", 
+    RowBox[{"sdev", " ", "=", " ", 
+     RowBox[{"Sqrt", "[", 
+      RowBox[{"avgdotssq", "-", 
+       RowBox[{"avgdots", "^", "2"}]}], "]"}]}], ";", "\[IndentingNewLine]", 
+    RowBox[{"Print", "[", 
+     RowBox[{
+     "\"\<mean = \>\"", ",", "avgdots", ",", 
+      "\"\<  standard deviation = \>\"", ",", "sdev"}], "]"}], ";", 
+    "\[IndentingNewLine]", 
+    RowBox[{"BarChart", "[", "freq", "]"}]}], " ", ")"}]}]], "Input",
+ CellChangeTimes->{{3.443949797659477*^9, 3.443949816067174*^9}, {
+  3.443949866033929*^9, 3.443949871193094*^9}, {3.443949903494083*^9, 
+  3.443949937098561*^9}},
+ CellLabel->"In[36]:="],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Rolldice", "[", "12", "]"}]], "Input",
+ CellLabel->"In[50]:="],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"mean = \"\>", "\[InvisibleSpace]", "3.75`", 
+   "\[InvisibleSpace]", "\<\"  standard deviation = \"\>", 
+   "\[InvisibleSpace]", "1.7853571071357126`"}],
+  SequenceForm[
+  "mean = ", 3.75, "  standard deviation = ", 1.7853571071357126`],
+  Editable->False]], "Print",
+ CellChangeTimes->{
+  3.464605512834237*^9, 3.464605583546955*^9, {3.464605660629346*^9, 
+   3.4646056696983*^9}},
+ CellLabel->"During evaluation of In[50]:="],
+
+Cell[BoxData[
+ GraphicsBox[{
+   {Hue[0.67, 0.45, 0.65], EdgeForm[Opacity[0.5]], 
+    RectangleBox[{0.615, 0}, {1.385, 2}]}, 
+   {Hue[0.67, 0.45, 0.65], EdgeForm[Opacity[0.5]], 
+    RectangleBox[{1.615, 0}, {2.385, 1}]}, 
+   {Hue[0.67, 0.45, 0.65], EdgeForm[Opacity[0.5]], 
+    RectangleBox[{2.615, 0}, {3.385, 3}]}, 
+   {Hue[0.67, 0.45, 0.65], EdgeForm[Opacity[0.5]], 
+    RectangleBox[{3.615, 0}, {4.385, 1}]}, 
+   {Hue[0.67, 0.45, 0.65], EdgeForm[Opacity[0.5]], 
+    RectangleBox[{4.615, 0}, {5.385, 2}]}, 
+   {Hue[0.67, 0.45, 0.65], EdgeForm[Opacity[0.5]], 
+    RectangleBox[{5.615, 0}, {6.385, 3}]}},
+  AlignmentPoint->Center,
+  AspectRatio->NCache[GoldenRatio^(-1), 0.6180339887498948],
+  Axes->True,
+  AxesLabel->None,
+  AxesOrigin->{0.39999999999999997`, 0},
+  AxesStyle->{},
+  Background->None,
+  BaseStyle->{},
+  BaselinePosition->Automatic,
+  ColorOutput->Automatic,
+  ContentSelectable->Automatic,
+  CoordinatesToolOptions:>Automatic,
+  DisplayFunction:>$DisplayFunction,
+  Epilog->{},
+  FormatType:>TraditionalForm,
+  Frame->False,
+  FrameLabel->None,
+  FrameStyle->{},
+  FrameTicks->{{{1, 
+      FormBox["1", TraditionalForm], 0}, {2, 
+      FormBox["2", TraditionalForm], 0}, {3, 
+      FormBox["3", TraditionalForm], 0}, {4, 
+      FormBox["4", TraditionalForm], 0}, {5, 
+      FormBox["5", TraditionalForm], 0}, {6, 
+      FormBox["6", TraditionalForm], 0}}, Automatic},
+  FrameTicksStyle->{},
+  GridLines->None,
+  GridLinesStyle->{},
+  ImageMargins->0.,
+  ImagePadding->All,
+  ImageSize->Automatic,
+  ImageSizeRaw->Automatic,
+  LabelStyle->{},
+  Method->Automatic,
+  PlotLabel->None,
+  PlotRange->{{0.39999999999999997`, 6.6000000000000005`}, All},
+  PlotRangeClipping->True,
+  PlotRangePadding->Automatic,
+  PlotRegion->Automatic,
+  PreserveImageOptions->Automatic,
+  Prolog->{},
+  RotateLabel->True,
+  Ticks->{{{1, 
+      FormBox["1", TraditionalForm], 0}, {2, 
+      FormBox["2", TraditionalForm], 0}, {3, 
+      FormBox["3", TraditionalForm], 0}, {4, 
+      FormBox["4", TraditionalForm], 0}, {5, 
+      FormBox["5", TraditionalForm], 0}, {6, 
+      FormBox["6", TraditionalForm], 0}}, Automatic},
+  TicksStyle->{}]], "Output",
+ CellChangeTimes->{
+  3.464605513092982*^9, 3.464605583607637*^9, {3.4646056607312*^9, 
+   3.464605669794766*^9}},
+ CellLabel->"Out[50]="]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Rolldice", "[", "120", "]"}]], "Input",
+ CellLabel->"In[53]:="],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"mean = \"\>", "\[InvisibleSpace]", "3.4`", 
+   "\[InvisibleSpace]", "\<\"  standard deviation = \"\>", 
+   "\[InvisibleSpace]", "1.5885003409925147`"}],
+  SequenceForm["mean = ", 3.4, "  standard deviation = ", 1.5885003409925147`],
+  Editable->False]], "Print",
+ CellChangeTimes->{
+  3.464605513126058*^9, 3.464605583764659*^9, {3.464605671840289*^9, 
+   3.464605674291309*^9}},
+ CellLabel->"During evaluation of In[53]:="],
+
+Cell[BoxData[
+ GraphicsBox[{
+   {Hue[0.67, 0.45, 0.65], EdgeForm[Opacity[0.5]], 
+    RectangleBox[{0.615, 0}, {1.385, 16}]}, 
+   {Hue[0.67, 0.45, 0.65], EdgeForm[Opacity[0.5]], 
+    RectangleBox[{1.615, 0}, {2.385, 25}]}, 
+   {Hue[0.67, 0.45, 0.65], EdgeForm[Opacity[0.5]], 
+    RectangleBox[{2.615, 0}, {3.385, 23}]}, 
+   {Hue[0.67, 0.45, 0.65], EdgeForm[Opacity[0.5]], 
+    RectangleBox[{3.615, 0}, {4.385, 22}]}, 
+   {Hue[0.67, 0.45, 0.65], EdgeForm[Opacity[0.5]], 
+    RectangleBox[{4.615, 0}, {5.385, 19}]}, 
+   {Hue[0.67, 0.45, 0.65], EdgeForm[Opacity[0.5]], 
+    RectangleBox[{5.615, 0}, {6.385, 15}]}},
+  AlignmentPoint->Center,
+  AspectRatio->NCache[GoldenRatio^(-1), 0.6180339887498948],
+  Axes->True,
+  AxesLabel->None,
+  AxesOrigin->{0.39999999999999997`, 0},
+  AxesStyle->{},
+  Background->None,
+  BaseStyle->{},
+  BaselinePosition->Automatic,
+  ColorOutput->Automatic,
+  ContentSelectable->Automatic,
+  CoordinatesToolOptions:>Automatic,
+  DisplayFunction:>$DisplayFunction,
+  Epilog->{},
+  FormatType:>TraditionalForm,
+  Frame->False,
+  FrameLabel->None,
+  FrameStyle->{},
+  FrameTicks->{{{1, 
+      FormBox["1", TraditionalForm], 0}, {2, 
+      FormBox["2", TraditionalForm], 0}, {3, 
+      FormBox["3", TraditionalForm], 0}, {4, 
+      FormBox["4", TraditionalForm], 0}, {5, 
+      FormBox["5", TraditionalForm], 0}, {6, 
+      FormBox["6", TraditionalForm], 0}}, Automatic},
+  FrameTicksStyle->{},
+  GridLines->None,
+  GridLinesStyle->{},
+  ImageMargins->0.,
+  ImagePadding->All,
+  ImageSize->Automatic,
+  ImageSizeRaw->Automatic,
+  LabelStyle->{},
+  Method->Automatic,
+  PlotLabel->None,
+  PlotRange->{{0.39999999999999997`, 6.6000000000000005`}, All},
+  PlotRangeClipping->True,
+  PlotRangePadding->Automatic,
+  PlotRegion->Automatic,
+  PreserveImageOptions->Automatic,
+  Prolog->{},
+  RotateLabel->True,
+  Ticks->{{{1, 
+      FormBox["1", TraditionalForm], 0}, {2, 
+      FormBox["2", TraditionalForm], 0}, {3, 
+      FormBox["3", TraditionalForm], 0}, {4, 
+      FormBox["4", TraditionalForm], 0}, {5, 
+      FormBox["5", TraditionalForm], 0}, {6, 
+      FormBox["6", TraditionalForm], 0}}, Automatic},
+  TicksStyle->{}]], "Output",
+ CellChangeTimes->{
+  3.464605513291947*^9, 3.464605583832172*^9, {3.464605671914231*^9, 
+   3.464605674374474*^9}},
+ CellLabel->"Out[53]="]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Rolldice", "[", "1200", "]"}]], "Input",
+ CellLabel->"In[39]:="],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"mean = \"\>", "\[InvisibleSpace]", "3.605`", 
+   "\[InvisibleSpace]", "\<\"  standard deviation = \"\>", 
+   "\[InvisibleSpace]", "1.7221038489785296`"}],
+  SequenceForm[
+  "mean = ", 3.605, "  standard deviation = ", 1.7221038489785296`],
+  Editable->False]], "Print",
+ CellChangeTimes->{3.464605513321699*^9, 3.464605583988954*^9},
+ CellLabel->"During evaluation of In[39]:="],
+
+Cell[BoxData[
+ GraphicsBox[{
+   {Hue[0.67, 0.45, 0.65], EdgeForm[Opacity[0.5]], 
+    RectangleBox[{0.615, 0}, {1.385, 188}]}, 
+   {Hue[0.67, 0.45, 0.65], EdgeForm[Opacity[0.5]], 
+    RectangleBox[{1.615, 0}, {2.385, 187}]}, 
+   {Hue[0.67, 0.45, 0.65], EdgeForm[Opacity[0.5]], 
+    RectangleBox[{2.615, 0}, {3.385, 188}]}, 
+   {Hue[0.67, 0.45, 0.65], EdgeForm[Opacity[0.5]], 
+    RectangleBox[{3.615, 0}, {4.385, 218}]}, 
+   {Hue[0.67, 0.45, 0.65], EdgeForm[Opacity[0.5]], 
+    RectangleBox[{4.615, 0}, {5.385, 186}]}, 
+   {Hue[0.67, 0.45, 0.65], EdgeForm[Opacity[0.5]], 
+    RectangleBox[{5.615, 0}, {6.385, 233}]}},
+  AlignmentPoint->Center,
+  AspectRatio->NCache[GoldenRatio^(-1), 0.6180339887498948],
+  Axes->True,
+  AxesLabel->None,
+  AxesOrigin->{0.39999999999999997`, 0},
+  AxesStyle->{},
+  Background->None,
+  BaseStyle->{},
+  BaselinePosition->Automatic,
+  ColorOutput->Automatic,
+  ContentSelectable->Automatic,
+  CoordinatesToolOptions:>Automatic,
+  DisplayFunction:>$DisplayFunction,
+  Epilog->{},
+  FormatType:>TraditionalForm,
+  Frame->False,
+  FrameLabel->None,
+  FrameStyle->{},
+  FrameTicks->{{{1, 
+      FormBox["1", TraditionalForm], 0}, {2, 
+      FormBox["2", TraditionalForm], 0}, {3, 
+      FormBox["3", TraditionalForm], 0}, {4, 
+      FormBox["4", TraditionalForm], 0}, {5, 
+      FormBox["5", TraditionalForm], 0}, {6, 
+      FormBox["6", TraditionalForm], 0}}, Automatic},
+  FrameTicksStyle->{},
+  GridLines->None,
+  GridLinesStyle->{},
+  ImageMargins->0.,
+  ImagePadding->All,
+  ImageSize->Automatic,
+  ImageSizeRaw->Automatic,
+  LabelStyle->{},
+  Method->Automatic,
+  PlotLabel->None,
+  PlotRange->{{0.39999999999999997`, 6.6000000000000005`}, All},
+  PlotRangeClipping->True,
+  PlotRangePadding->Automatic,
+  PlotRegion->Automatic,
+  PreserveImageOptions->Automatic,
+  Prolog->{},
+  RotateLabel->True,
+  Ticks->{{{1, 
+      FormBox["1", TraditionalForm], 0}, {2, 
+      FormBox["2", TraditionalForm], 0}, {3, 
+      FormBox["3", TraditionalForm], 0}, {4, 
+      FormBox["4", TraditionalForm], 0}, {5, 
+      FormBox["5", TraditionalForm], 0}, {6, 
+      FormBox["6", TraditionalForm], 0}}, Automatic},
+  TicksStyle->{}]], "Output",
+ CellChangeTimes->{3.464605513496341*^9, 3.464605584071976*^9},
+ CellLabel->"Out[39]="]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Rolldice", "[", "12000", "]"}]], "Input",
+ CellLabel->"In[40]:="],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"mean = \"\>", "\[InvisibleSpace]", "3.510083333333333`", 
+   "\[InvisibleSpace]", "\<\"  standard deviation = \"\>", 
+   "\[InvisibleSpace]", "1.7219364079592359`"}],
+  SequenceForm[
+  "mean = ", 3.510083333333333, "  standard deviation = ", 
+   1.7219364079592359`],
+  Editable->False]], "Print",
+ CellChangeTimes->{3.464605513682993*^9, 3.464605584374088*^9},
+ CellLabel->"During evaluation of In[40]:="],
+
+Cell[BoxData[
+ GraphicsBox[{
+   {Hue[0.67, 0.45, 0.65], EdgeForm[Opacity[0.5]], 
+    RectangleBox[{0.615, 0}, {1.385, 2002}]}, 
+   {Hue[0.67, 0.45, 0.65], EdgeForm[Opacity[0.5]], 
+    RectangleBox[{1.615, 0}, {2.385, 2043}]}, 
+   {Hue[0.67, 0.45, 0.65], EdgeForm[Opacity[0.5]], 
+    RectangleBox[{2.615, 0}, {3.385, 1948}]}, 
+   {Hue[0.67, 0.45, 0.65], EdgeForm[Opacity[0.5]], 
+    RectangleBox[{3.615, 0}, {4.385, 1927}]}, 
+   {Hue[0.67, 0.45, 0.65], EdgeForm[Opacity[0.5]], 
+    RectangleBox[{4.615, 0}, {5.385, 1999}]}, 
+   {Hue[0.67, 0.45, 0.65], EdgeForm[Opacity[0.5]], 
+    RectangleBox[{5.615, 0}, {6.385, 2081}]}},
+  AlignmentPoint->Center,
+  AspectRatio->NCache[GoldenRatio^(-1), 0.6180339887498948],
+  Axes->True,
+  AxesLabel->None,
+  AxesOrigin->{0.39999999999999997`, 0},
+  AxesStyle->{},
+  Background->None,
+  BaseStyle->{},
+  BaselinePosition->Automatic,
+  ColorOutput->Automatic,
+  ContentSelectable->Automatic,
+  CoordinatesToolOptions:>Automatic,
+  DisplayFunction:>$DisplayFunction,
+  Epilog->{},
+  FormatType:>TraditionalForm,
+  Frame->False,
+  FrameLabel->None,
+  FrameStyle->{},
+  FrameTicks->{{{1, 
+      FormBox["1", TraditionalForm], 0}, {2, 
+      FormBox["2", TraditionalForm], 0}, {3, 
+      FormBox["3", TraditionalForm], 0}, {4, 
+      FormBox["4", TraditionalForm], 0}, {5, 
+      FormBox["5", TraditionalForm], 0}, {6, 
+      FormBox["6", TraditionalForm], 0}}, Automatic},
+  FrameTicksStyle->{},
+  GridLines->None,
+  GridLinesStyle->{},
+  ImageMargins->0.,
+  ImagePadding->All,
+  ImageSize->Automatic,
+  ImageSizeRaw->Automatic,
+  LabelStyle->{},
+  Method->Automatic,
+  PlotLabel->None,
+  PlotRange->{{0.39999999999999997`, 6.6000000000000005`}, All},
+  PlotRangeClipping->True,
+  PlotRangePadding->Automatic,
+  PlotRegion->Automatic,
+  PreserveImageOptions->Automatic,
+  Prolog->{},
+  RotateLabel->True,
+  Ticks->{{{1, 
+      FormBox["1", TraditionalForm], 0}, {2, 
+      FormBox["2", TraditionalForm], 0}, {3, 
+      FormBox["3", TraditionalForm], 0}, {4, 
+      FormBox["4", TraditionalForm], 0}, {5, 
+      FormBox["5", TraditionalForm], 0}, {6, 
+      FormBox["6", TraditionalForm], 0}}, Automatic},
+  TicksStyle->{}]], "Output",
+ CellChangeTimes->{3.464605513845101*^9, 3.46460558442198*^9},
+ CellLabel->"Out[40]="]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Rolldice", "[", "120000", "]"}]], "Input",
+ CellLabel->"In[41]:="],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"mean = \"\>", "\[InvisibleSpace]", "3.5052166666666666`", 
+   "\[InvisibleSpace]", "\<\"  standard deviation = \"\>", 
+   "\[InvisibleSpace]", "1.707900110190549`"}],
+  SequenceForm[
+  "mean = ", 3.5052166666666666`, "  standard deviation = ", 
+   1.707900110190549],
+  Editable->False]], "Print",
+ CellChangeTimes->{3.464605514106181*^9, 3.464605584657825*^9},
+ CellLabel->"During evaluation of In[41]:="],
+
+Cell[BoxData[
+ GraphicsBox[{
+   {Hue[0.67, 0.45, 0.65], EdgeForm[Opacity[0.5]], 
+    RectangleBox[{0.615, 0}, {1.385, 20000}]}, 
+   {Hue[0.67, 0.45, 0.65], EdgeForm[Opacity[0.5]], 
+    RectangleBox[{1.615, 0}, {2.385, 19813}]}, 
+   {Hue[0.67, 0.45, 0.65], EdgeForm[Opacity[0.5]], 
+    RectangleBox[{2.615, 0}, {3.385, 19916}]}, 
+   {Hue[0.67, 0.45, 0.65], EdgeForm[Opacity[0.5]], 
+    RectangleBox[{3.615, 0}, {4.385, 20139}]}, 
+   {Hue[0.67, 0.45, 0.65], EdgeForm[Opacity[0.5]], 
+    RectangleBox[{4.615, 0}, {5.385, 20096}]}, 
+   {Hue[0.67, 0.45, 0.65], EdgeForm[Opacity[0.5]], 
+    RectangleBox[{5.615, 0}, {6.385, 20036}]}},
+  AlignmentPoint->Center,
+  AspectRatio->NCache[GoldenRatio^(-1), 0.6180339887498948],
+  Axes->True,
+  AxesLabel->None,
+  AxesOrigin->{0.39999999999999997`, 0},
+  AxesStyle->{},
+  Background->None,
+  BaseStyle->{},
+  BaselinePosition->Automatic,
+  ColorOutput->Automatic,
+  ContentSelectable->Automatic,
+  CoordinatesToolOptions:>Automatic,
+  DisplayFunction:>$DisplayFunction,
+  Epilog->{},
+  FormatType:>TraditionalForm,
+  Frame->False,
+  FrameLabel->None,
+  FrameStyle->{},
+  FrameTicks->{{{1, 
+      FormBox["1", TraditionalForm], 0}, {2, 
+      FormBox["2", TraditionalForm], 0}, {3, 
+      FormBox["3", TraditionalForm], 0}, {4, 
+      FormBox["4", TraditionalForm], 0}, {5, 
+      FormBox["5", TraditionalForm], 0}, {6, 
+      FormBox["6", TraditionalForm], 0}}, Automatic},
+  FrameTicksStyle->{},
+  GridLines->None,
+  GridLinesStyle->{},
+  ImageMargins->0.,
+  ImagePadding->All,
+  ImageSize->Automatic,
+  ImageSizeRaw->Automatic,
+  LabelStyle->{},
+  Method->Automatic,
+  PlotLabel->None,
+  PlotRange->{{0.39999999999999997`, 6.6000000000000005`}, All},
+  PlotRangeClipping->True,
+  PlotRangePadding->Automatic,
+  PlotRegion->Automatic,
+  PreserveImageOptions->Automatic,
+  Prolog->{},
+  RotateLabel->True,
+  Ticks->{{{1, 
+      FormBox["1", TraditionalForm], 0}, {2, 
+      FormBox["2", TraditionalForm], 0}, {3, 
+      FormBox["3", TraditionalForm], 0}, {4, 
+      FormBox["4", TraditionalForm], 0}, {5, 
+      FormBox["5", TraditionalForm], 0}, {6, 
+      FormBox["6", TraditionalForm], 0}}, Automatic},
+  TicksStyle->{}]], "Output",
+ CellChangeTimes->{3.464605514267666*^9, 3.464605584720658*^9},
+ CellLabel->"Out[41]="]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Rolldice", "[", "1200000", "]"}]], "Input",
+ CellLabel->"In[42]:="],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"mean = \"\>", "\[InvisibleSpace]", "3.4996133333333335`", 
+   "\[InvisibleSpace]", "\<\"  standard deviation = \"\>", 
+   "\[InvisibleSpace]", "1.707656244824727`"}],
+  SequenceForm[
+  "mean = ", 3.4996133333333335`, "  standard deviation = ", 
+   1.707656244824727],
+  Editable->False]], "Print",
+ CellChangeTimes->{3.464605514906282*^9, 3.464605585417364*^9},
+ CellLabel->"During evaluation of In[42]:="],
+
+Cell[BoxData[
+ GraphicsBox[{
+   {Hue[0.67, 0.45, 0.65], EdgeForm[Opacity[0.5]], 
+    RectangleBox[{0.615, 0}, {1.385, 199979}]}, 
+   {Hue[0.67, 0.45, 0.65], EdgeForm[Opacity[0.5]], 
+    RectangleBox[{1.615, 0}, {2.385, 200212}]}, 
+   {Hue[0.67, 0.45, 0.65], EdgeForm[Opacity[0.5]], 
+    RectangleBox[{2.615, 0}, {3.385, 199818}]}, 
+   {Hue[0.67, 0.45, 0.65], EdgeForm[Opacity[0.5]], 
+    RectangleBox[{3.615, 0}, {4.385, 200066}]}, 
+   {Hue[0.67, 0.45, 0.65], EdgeForm[Opacity[0.5]], 
+    RectangleBox[{4.615, 0}, {5.385, 200135}]}, 
+   {Hue[0.67, 0.45, 0.65], EdgeForm[Opacity[0.5]], 
+    RectangleBox[{5.615, 0}, {6.385, 199790}]}},
+  AlignmentPoint->Center,
+  AspectRatio->NCache[GoldenRatio^(-1), 0.6180339887498948],
+  Axes->True,
+  AxesLabel->None,
+  AxesOrigin->{0.39999999999999997`, 0},
+  AxesStyle->{},
+  Background->None,
+  BaseStyle->{},
+  BaselinePosition->Automatic,
+  ColorOutput->Automatic,
+  ContentSelectable->Automatic,
+  CoordinatesToolOptions:>Automatic,
+  DisplayFunction:>$DisplayFunction,
+  Epilog->{},
+  FormatType:>TraditionalForm,
+  Frame->False,
+  FrameLabel->None,
+  FrameStyle->{},
+  FrameTicks->{{{1, 
+      FormBox["1", TraditionalForm], 0}, {2, 
+      FormBox["2", TraditionalForm], 0}, {3, 
+      FormBox["3", TraditionalForm], 0}, {4, 
+      FormBox["4", TraditionalForm], 0}, {5, 
+      FormBox["5", TraditionalForm], 0}, {6, 
+      FormBox["6", TraditionalForm], 0}}, Automatic},
+  FrameTicksStyle->{},
+  GridLines->None,
+  GridLinesStyle->{},
+  ImageMargins->0.,
+  ImagePadding->All,
+  ImageSize->Automatic,
+  ImageSizeRaw->Automatic,
+  LabelStyle->{},
+  Method->Automatic,
+  PlotLabel->None,
+  PlotRange->{{0.39999999999999997`, 6.6000000000000005`}, All},
+  PlotRangeClipping->True,
+  PlotRangePadding->Automatic,
+  PlotRegion->Automatic,
+  PreserveImageOptions->Automatic,
+  Prolog->{},
+  RotateLabel->True,
+  Ticks->{{{1, 
+      FormBox["1", TraditionalForm], 0}, {2, 
+      FormBox["2", TraditionalForm], 0}, {3, 
+      FormBox["3", TraditionalForm], 0}, {4, 
+      FormBox["4", TraditionalForm], 0}, {5, 
+      FormBox["5", TraditionalForm], 0}, {6, 
+      FormBox["6", TraditionalForm], 0}}, Automatic},
+  TicksStyle->{}]], "Output",
+ CellChangeTimes->{3.464605515068306*^9, 3.464605585494898*^9},
+ CellLabel->"Out[42]="]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]]
+},
+WindowToolbars->"EditBar",
+WindowSize->{1084, 937},
+WindowMargins->{{Automatic, 0}, {Automatic, 0}},
+ShowSelection->True,
+FrontEndVersion->"7.0 for Linux x86 (32-bit) (November 10, 2008)",
+StyleDefinitions->"ArticleClassic.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{
+ "Info3464591180-3715492"->{
+  Cell[4106, 156, 2374, 39, 147, "Print",
+   CellTags->"Info3464591180-3715492"]},
+ "Info3464591180-8383539"->{
+  Cell[7201, 228, 4811, 72, 147, "Print",
+   CellTags->"Info3464591180-8383539"]}
+ }
+*)
+(*CellTagsIndex
+CellTagsIndex->{
+ {"Info3464591180-3715492", 35558, 1028},
+ {"Info3464591180-8383539", 35670, 1031}
+ }
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[567, 22, 148, 5, 64, "Title"],
+Cell[718, 29, 69, 0, 27, "Text"],
+Cell[CellGroupData[{
+Cell[812, 33, 78, 2, 58, "Section",
+ Evaluatable->False],
+Cell[893, 37, 249, 6, 46, "Text",
+ Evaluatable->False],
+Cell[1145, 45, 85, 2, 30, "Input"],
+Cell[1233, 49, 86, 2, 30, "Input"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[1356, 56, 156, 3, 58, "Section",
+ Evaluatable->False],
+Cell[1515, 61, 385, 10, 46, "Text",
+ Evaluatable->False],
+Cell[1903, 73, 280, 7, 30, "Input"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[2220, 85, 83, 2, 58, "Section",
+ Evaluatable->False],
+Cell[2306, 89, 105, 2, 27, "Text",
+ Evaluatable->False],
+Cell[CellGroupData[{
+Cell[2436, 95, 177, 5, 30, "Input"],
+Cell[2616, 102, 201, 5, 29, "Output"]
+}, Open  ]],
+Cell[2832, 110, 162, 5, 27, "Text",
+ Evaluatable->False],
+Cell[2997, 117, 263, 7, 30, "Input"],
+Cell[3263, 126, 103, 2, 27, "Text",
+ Evaluatable->False],
+Cell[3369, 130, 108, 3, 30, "Input"],
+Cell[3480, 135, 121, 2, 27, "Text",
+ Evaluatable->False],
+Cell[3604, 139, 244, 6, 30, "Input"],
+Cell[CellGroupData[{
+Cell[3873, 149, 230, 5, 53, "Input"],
+Cell[4106, 156, 2374, 39, 147, "Print",
+ CellTags->"Info3464591180-3715492"]
+}, Open  ]],
+Cell[6495, 198, 140, 4, 27, "Text",
+ Evaluatable->False],
+Cell[CellGroupData[{
+Cell[6660, 206, 213, 6, 30, "Input"],
+Cell[6876, 214, 209, 5, 29, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[7122, 224, 76, 2, 30, "Input"],
+Cell[7201, 228, 4811, 72, 147, "Print",
+ CellTags->"Info3464591180-8383539"]
+}, Open  ]],
+Cell[12027, 303, 111, 2, 27, "Text",
+ Evaluatable->False],
+Cell[CellGroupData[{
+Cell[12163, 309, 154, 3, 30, "Input"],
+Cell[12320, 314, 2241, 65, 239, "Output"]
+}, Open  ]],
+Cell[14576, 382, 179, 5, 27, "Text",
+ Evaluatable->False],
+Cell[CellGroupData[{
+Cell[14780, 391, 90, 2, 30, "Input"],
+Cell[14873, 395, 117, 2, 29, "Output"]
+}, Open  ]],
+Cell[15005, 400, 112, 2, 27, "Text",
+ Evaluatable->False],
+Cell[CellGroupData[{
+Cell[15142, 406, 224, 7, 30, "Input"],
+Cell[15369, 415, 133, 2, 29, "Output"]
+}, Open  ]],
+Cell[15517, 420, 120, 2, 27, "Text",
+ Evaluatable->False],
+Cell[CellGroupData[{
+Cell[15662, 426, 251, 8, 30, "Input"],
+Cell[15916, 436, 122, 2, 29, "Output"]
+}, Open  ]],
+Cell[16053, 441, 73, 0, 27, "Text"],
+Cell[16129, 443, 1907, 49, 229, "Input"],
+Cell[CellGroupData[{
+Cell[18061, 496, 86, 2, 30, "Input"],
+Cell[18150, 500, 476, 11, 24, "Print"],
+Cell[18629, 513, 2287, 67, 238, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[20953, 585, 87, 2, 30, "Input"],
+Cell[21043, 589, 473, 10, 24, "Print"],
+Cell[21519, 601, 2295, 67, 243, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[23851, 673, 88, 2, 30, "Input"],
+Cell[23942, 677, 427, 9, 24, "Print"],
+Cell[24372, 688, 2248, 65, 234, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[26657, 758, 89, 2, 30, "Input"],
+Cell[26749, 762, 455, 10, 24, "Print"],
+Cell[27207, 774, 2253, 65, 229, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[29497, 844, 90, 2, 30, "Input"],
+Cell[29590, 848, 455, 10, 24, "Print"],
+Cell[30048, 860, 2260, 65, 226, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[32345, 930, 91, 2, 30, "Input"],
+Cell[32439, 934, 455, 10, 24, "Print"],
+Cell[32897, 946, 2266, 65, 222, "Output"]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]]
+}
+]
+*)
+
+(* End of internal cache information *)
