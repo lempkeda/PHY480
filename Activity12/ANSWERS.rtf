@@ -1,0 +1,116 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2577
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;\f1\fnil\fcharset0 Chalkduster;}
+{\colortbl;\red255\green255\blue255;\red251\green2\blue7;}
+{\*\expandedcolortbl;;\cssrgb\c100000\c14913\c0;}
+\margl1440\margr1440\vieww13440\viewh7800\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 DAVE LEMPKE\
+PHY 480\
+ACTIVITY 12\
+\
+
+\f1 \cf2 Grade: check +
+\f0 \cf0 \
+\
+////////////////////////////////////////////////////////////////////////////////////////////////////////////\
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////\
+\
+RANDOM NUMBER GENERATION:\
+\
+	1: To make a random number generator class you would want to put the lines\
+	\
+	  	  gsl_rng *rng_ptr;		// pointer to random number generator (rng) \
+  		  rng_ptr = gsl_rng_alloc (gsl_rng_taus);	// allocate the rng \
+	\
+	in the constructor. You would also probably want to include \
+	\
+		  gsl_rng_set (rng_ptr, seed)\
+\
+	and just accept the seed as an argument to the constructor. Then you could store the seed as a private\
+	variable. \
+\
+\
+	2: For a quick check i just plotted each column against itself (eg 1:1) and just checked the density of points which\
+	is easy to see with the cross marks used by gnuplot. \
+	I was about to make my own histrogramming but looked at the next question at the last second. \
+\
+	3: The gaussian distributions look very good. The uniform random plot also looks very good once I realized the y\
+	axis shown was only 2000 +- 100 .\
+	There is some variation but this is to be expected from a something random. If there were 10 million random numbers\
+	the histogram should be flatter. \
+\
+	4. It seems like it reproduces the parameters for a gaussian distribution fairly well. \
+\
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////\
+\
+RANDOM WALKING\
+\
+	1. Is the RMS length 1? \cf2  
+\f1 (no, it\'92s 2/sqrt(3). See the notes for how to compute this)
+\f0 \cf0 \
+\
+	2. 100: 11, 13, 12\
+	  1000: 10, 45, 32\
+	 10000: 182, 91, 96\
+	100000:	200, 52, 202\
+\
+	Looking at this, it completely follows the derivation in the notes. It scales with sqrt(N)*rms . This makes complete\
+	sense if the rms is 1. \
+\
+	5. I don't really know how many trials i should use for each npts but it seems to be good with 10. \
+	The plot i created confirms this relationship. It clearly scales with sqrt(npts).\
+\
+\
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////\
+\
+	1. Most of it is centered around 0 so the default -5,5 is reasonable and would produce little error. This range can \
+	probably be greatly extended for a little more accuracy though if the computation is not too long. \
+\
+	2. There is generally -.5 slope on the plot. Which suggests an inverse square root relationship between error and\
+	integration vectors for this particular case.\
+\
+	3. For 3-D, the plot is essentially the same. A similar overall error, and similar slope. \
+	However, with the 10-D case, there is very high error, even at ~500,000 vectors. The absolute error is around 1\
+	until about 10,000. \
+	This agrees with the notes for uniform sampling. The scaling rapidly breaks down as dimensions increase. \
+	For 10-D the slope is ~-.2. Which is reproduced by the eqn N^(-4/D).\
+\
+	4. The integrand function should return the thing that is attempting to be integrated? Not sure what this question is\
+	asking.\
+\
+	5. The error scales about the same, no matter how many dimensions you use. This is crazy.\
+	The uniform distribution seems like the better choice for low dimensions, but starting above 3 dimensions\
+	this gaussian distribution method turns into the clear better option.\
+	At 10D is is not even close how much better this method is. Let alone 100D where good error is still achieved. \
+\
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////\
+\
+Monte Carlo Integration: GSL Routines:\
+\
+	2: For the test I did, the plain and vegas methods gave very similar answers. Miser was the one fairly close but\
+	further from the other two. \
+\
+	I also tried setting the integrand as     cos(sum)*(1/sin(2*sum))*exp(sum)\
+	which produced wild results. None of the methods were even close to eachother.\
+	I tried also to increase the calls by 10 times but it had no good effect. \
+\
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////\
+\
+C++ Class for a Random Walk\
+\
+	There are huge advantages to utilizing c++ classes in code. \
+	Number 1 is organization. Without using classes to create objects with your own custom data structure and\
+	methods, any sufficiently complicated program would turn into a mess that is more difficult to write and more\
+	difficult for anyone to read. \
+	Sometimes utilizing classes can make something harder to understand when you have to jump back and forth to\
+	see exactly what member functions do, but if the class is well written with good names, readability can be\
+	way better. \
+	\
+	For this code you could extend the class to handle the file opening and looped function calls that are in\
+	RandomWalk_test.cpp \
+	Furthermore, you could extend it to include a method that does everything in that file and takes npts as an\
+	argument. This way you could easily make the class calculate for different npts and analyze whatever there is	\
+	to be analyzed there.\
+	You could also have different options for RNG in the class. \
+	}
