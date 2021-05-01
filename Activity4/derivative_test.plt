@@ -13,7 +13,7 @@
 set timestamp
 
 # titles and labels
-set title 'Test of Numerical Derivatives using exp(-x)'
+set title 'Test of Numerical Derivatives using a*x^(b)'
 set xlabel 'log10(mesh size)'
 set ylabel 'relative error'
 
@@ -22,7 +22,7 @@ set key left
 
 # set the x and y axis scales (already logs)
 set xrange [-10:0]
-set yrange [-12:0]
+set yrange [-14:0]
 
 # fit the curve
 f1(x) = a1*x + b1
@@ -30,11 +30,11 @@ fit [-8:-1] f1(x) "derivative_test.dat" using ($1):($2) via a1,b1
 fit_title = sprintf("%-+4.1f*x %-+4.1f",a1,b1)
 
 f2(x) = a2*x + b2
-fit [-8:-1] f2(x) "derivative_test.dat" using ($1):($3) via a2,b2 
+fit [-4:-1] f2(x) "derivative_test.dat" using ($1):($3) via a2,b2 
 fit_title2 = sprintf("%-+4.1f*x %-+4.1f",a2,b2)
 
 f3(x) = a3*x + b3
-fit [-8:-1] f3(x) "derivative_test.dat" using ($1):($4) via a3,b3 
+fit [-2:-1] f3(x) "derivative_test.dat" using ($1):($4) via a3,b3 
 fit_title3 = sprintf("%-+4.1f*x %-+4.1f",a3,b3)
 
 # set the terminal type to be the screen (which is x11 here)

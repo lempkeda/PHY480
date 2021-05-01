@@ -32,6 +32,7 @@
 #include <iomanip>		// note that .h is omitted
 using namespace std;
 #include <time.h>
+#include <fstream>
 #include <gsl/gsl_eigen.h>	// include the appropriate GSL header file 
 
 
@@ -40,29 +41,29 @@ int
 main ()
 {
   clock_t start, end;		// start and stop times 
-  int dimension;		// dimension of the matrices and vectors 
+  int max_dimension;		// dimension of the matrices and vectors 
   double hilbert;		// an entry in a Hilbert matrix 
 
   gsl_matrix *Amat_ptr;		// original gsl matrix to process 
   gsl_vector *Eigval_ptr;	// gsl vector with eigenvalues 
   gsl_matrix *Eigvec_ptr;	// gsl matrix with eigenvectors 
   gsl_eigen_symmv_workspace *worksp;	// the workspace for gsl 
-
+  ofstream out("matrix_runtimes.dat");
   // the following two objects are for output only 
-  double eigenvalue;		// one of the eigenvalues of the matrix 
+  //double eigenvalue;		// one of the eigenvalues of the matrix 
   gsl_vector *eigenvector_ptr;	// one of the eigen vectors of the matrix 
 
   // pick the dimension of the matrix 
   cout << "Enter the dimension of the matrix: ";
-  cin >> dimension;
-
+  cin >> max_dimension;
+for (int dimension = 8; dimension < max_dimension; dimension += 8){
   // allocate space for the vectors, matrices, and workspace 
   Amat_ptr = gsl_matrix_alloc (dimension, dimension);
   Eigval_ptr = gsl_vector_alloc (dimension);
   Eigvec_ptr = gsl_matrix_alloc (dimension, dimension);
   worksp = gsl_eigen_symmv_alloc (dimension);
   eigenvector_ptr = gsl_vector_alloc (dimension);
-  eigenvalue = 0;
+  //eigenvalue = 0;
 
   // Load the Hilbert matrix pointed to by Amat_ptr 
   for (int i = 0; i < dimension; i++)
@@ -79,41 +80,43 @@ main ()
   // in the process. The eigenvectors are pointed to by 
   // Eigvec_ptr and the eigenvalues by Eigval_ptr.
    
-  start = clock ();		// start the clock to time the next routine 
-  gsl_eigen_symmv (Amat_ptr, Eigval_ptr, Eigvec_ptr, worksp);
-  end = clock ();		// stop the clock and print the elapsed time 
+		start = clock ();		// start the clock to time the next routine 
+		gsl_eigen_symmv (Amat_ptr, Eigval_ptr, Eigvec_ptr, worksp);
+		end = clock ();		// stop the clock and print the elapsed time 
 
-  cout << " Finding the eigenvalues/vectors took " << fixed  
-	<< setprecision(3) 
-        <<  (double) (end - start) / (double) CLOCKS_PER_SEC
-        << " seconds\n\n";
-
+		double time = (double)(end - start)/(double) CLOCKS_PER_SEC;
+		cout << dimension << " x " << dimension << ": " << fixed  
+		<< setprecision(3) 
+			<<  time
+			<< " seconds\n";
+		out << dimension << "    " << time << endl;
+}
   // sort the eigenvalues and eigenvectors in ascending order 
   gsl_eigen_symmv_sort (Eigval_ptr, Eigvec_ptr, GSL_EIGEN_SORT_ABS_ASC);
 
   // print out the results 
   // comment starting here when running large matrices 
-  for (int i = 0; i < dimension; i++)
-    {
-      eigenvalue = gsl_vector_get (Eigval_ptr, i);
-      gsl_matrix_get_col (eigenvector_ptr, Eigvec_ptr, i);
+  // for (int i = 0; i < dimension; i++)
+  //   {
+  //     eigenvalue = gsl_vector_get (Eigval_ptr, i);
+  //     gsl_matrix_get_col (eigenvector_ptr, Eigvec_ptr, i);
 
-      cout << "eigenvalue = " << scientific << eigenvalue << endl;
+  //     cout << "eigenvalue = " << scientific << eigenvalue << endl;
 
-      cout << "eigenvector = \n";
-      for (int j = 0; j < dimension; j++)
-      {
-          cout << scientific << gsl_vector_get (eigenvector_ptr, j) << endl;
-      }
-    }
+  //     cout << "eigenvector = \n";
+  //     for (int j = 0; j < dimension; j++)
+  //     {
+  //         cout << scientific << gsl_vector_get (eigenvector_ptr, j) << endl;
+  //     }
+  //   }
   // end the comment here when running large matrices 
 
   // free the space used by the vector and matrices and workspace 
-  gsl_matrix_free (Eigvec_ptr);
-  gsl_vector_free (Eigval_ptr);
-  gsl_matrix_free (Amat_ptr);
-  gsl_vector_free (eigenvector_ptr);
-  gsl_eigen_symmv_free (worksp);
+  // gsl_matrix_free (Eigvec_ptr);
+  // gsl_vector_free (Eigval_ptr);
+  // gsl_matrix_free (Amat_ptr);
+  // gsl_vector_free (eigenvector_ptr);
+  // gsl_eigen_symmv_free (worksp);
 
   return (0);			// successful completion 
 }

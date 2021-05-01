@@ -1,0 +1,42 @@
+Activity 4.  Dave Lempke
+
+RESUBMISSION.
+
+
+
+3. The slope of the extrap_diff graph equal to about 4 (to the right of the optimal h value) because it is a Richardson
+	extrapolation and thus has an error that scales with h^4 . 
+
+	The notes mention you can apply this Richardsom extrapolation more than once so you could presumably combine even
+	more h sizes that are different in order to further refine the result. You could get an extremely accurate
+	estimation with this but it seems like this method would be very computationally intensive if you do it more than once.
+
+4. This error on the left size is due to too small mesh size and is caused by machine imprecision in representing numbers that
+	small. These slopes are all the same because once you have a mesh size that small,the function becomes closer and
+	closer to locally linear so what method you use to approximate will not matter in the face of the errors caused
+	by machine imprecision.
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+
+Pointer games
+
+4. Plot saved.
+
+	The slopes are the same because the errors of these methods still follow the same power law. There is a different
+	function now that has a different base error scaling these power laws so the intercept is different.
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+
+Linear Algebra with GSL routines.
+
+	There is probably Matrix multiplication happening buried in these routines so it probaby scales around N^3. 
+	I know matrix multiplication scales n^3 but GSL is probably extremely well optimized so it could be a little less or
+	a little more than this as I do not really know how it works exactly.
+
+Plotting run times:
+
+	Whenever I try to run this code I get cryptic errors. I even got help from a classmate and even copying his code it does
+	not run. However, I looked at his plot and it completely agrees with my prediction. (runtimeplot.png).
+
+	The slope is very close to 3 which is the exact ballpark I guessed.

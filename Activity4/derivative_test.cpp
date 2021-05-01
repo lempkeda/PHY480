@@ -24,7 +24,10 @@
 using namespace std;		// we need this when .h is omitted
 #include <gsl/gsl_math.h>
 #include <gsl/gsl_diff.h>
-
+typedef struct{
+	double alpha;
+	double beta;
+} parameters;
 // function prototypes 
 double test_function (double x, void *params_ptr);
 double test_function_derivative (double x, void *params_ptr);
@@ -43,11 +46,14 @@ double extrap_diff (double x, double h,
 int
 main (void)
 {
+  parameters params;
+  params.alpha = 2.0;
+  params.beta = 3./2.;
   void *params_ptr;		// void pointer passed to functions 
 
   const double hmin = 1.e-10;	// minimum mesh size 
   double x = 1.;		// find the derivative at x 
-  double alpha = 1.;		// a parameter for the function 
+  //double alpha = 1.;		// a parameter for the function 
   double diff_cd, diff_fd;	// central, forward difference 
   double diff_extrap;		// extrapolated derivative 
   double diff_gsl_cd;		// gsl adaptive central derivative 
@@ -55,8 +61,8 @@ main (void)
   double abserr;                // absolute error
 
   ofstream out ("derivative_test.dat");	// open the output file 
-
-  params_ptr = &alpha;		// double to pass to function 
+  params_ptr = &params;
+  //params_ptr = &alpha;		// double to pass to function 
 
   // exact answer for test 
   double answer = test_function_derivative (x, params_ptr);	
@@ -96,19 +102,28 @@ main (void)
 double
 test_function (double x, void *params_ptr)
 {
-  double alpha;
-  alpha = *(double *) params_ptr;
-
-  return (exp (-alpha * x));
+  // double alpha;
+  // alpha = *(double *) params_ptr ->alpha;
+  // beta =  *(double *) params_ptr ->beta;
+  parameters *ptr;
+  ptr = (parameters*)params_ptr;
+  double alpha = ptr->alpha;
+  double beta  = ptr->beta;
+  return (alpha*pow(x,beta));
 }
 
 //************************** funct_deriv *********************
 double
 test_function_derivative (double x, void *params_ptr)
 {
-  double alpha = *(double *) params_ptr;
+  //double alpha = *(double *) params_ptr;
 
-  return (-alpha * exp (-alpha * x));
+  parameters *ptr;
+  ptr = (parameters*)params_ptr;
+  double alpha = ptr->alpha;
+  double beta  = ptr->beta;
+
+  return (beta*alpha * pow(x,beta-1));
 }
 
 //************************** forward_diff *********************
