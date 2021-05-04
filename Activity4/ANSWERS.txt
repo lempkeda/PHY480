@@ -1,11 +1,14 @@
 Activity 4.  Dave Lempke
 
+Updated grade: check +
+----------------------
+
 RESUBMISSION.
 
 
 
 3. The slope of the extrap_diff graph equal to about 4 (to the right of the optimal h value) because it is a Richardson
-	extrapolation and thus has an error that scales with h^4 . 
+	extrapolation and thus has an error that scales with h^4 .
 
 	The notes mention you can apply this Richardsom extrapolation more than once so you could presumably combine even
 	more h sizes that are different in order to further refine the result. You could get an extremely accurate
@@ -30,7 +33,7 @@ Pointer games
 
 Linear Algebra with GSL routines.
 
-	There is probably Matrix multiplication happening buried in these routines so it probaby scales around N^3. 
+	There is probably Matrix multiplication happening buried in these routines so it probaby scales around N^3.
 	I know matrix multiplication scales n^3 but GSL is probably extremely well optimized so it could be a little less or
 	a little more than this as I do not really know how it works exactly.
 
