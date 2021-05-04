@@ -2,6 +2,8 @@ DAVE LEMPKE
 PHY 480
 HW3
 
+Grade: check --> check + w/extra credit
+
 I have essentially zero experience with quantum mechanics and can not figure out how to do question 3.
 
 
